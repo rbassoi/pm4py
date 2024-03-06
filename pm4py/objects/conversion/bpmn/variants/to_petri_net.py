@@ -4,6 +4,7 @@ from enum import Enum
 from pm4py.objects.petri_net.utils import reduction
 from pm4py.objects.petri_net.obj import PetriNet, Marking
 from pm4py.objects.bpmn.obj import BPMN
+from pm4py.objects.petri_net.utils.petri_utils import remove_place
 from pm4py.objects.petri_net.utils.petri_utils import add_arc_from_to
 from pm4py.util import exec_utils, nx_utils
 
@@ -193,25 +194,26 @@ def apply(bpmn_graph, parameters=None):
 
     for flow in bpmn_graph.get_flows():
         if isinstance(flow, BPMN.SequenceFlow):
-            source_object = nodes_exiting[flow.get_source()]
-            target_object = nodes_entering[flow.get_target()]
+            if flow.get_source() in nodes_exiting and flow.get_target() in nodes_entering:
+                source_object = nodes_exiting[flow.get_source()]
+                target_object = nodes_entering[flow.get_target()]
 
-            if isinstance(source_object, PetriNet.Place):
-                inv1 = PetriNet.Transition(f"sfl_{flow.get_id()}", None)
-                net.transitions.add(inv1)
-                add_arc_from_to(source_object, inv1, net)
-                source_object = inv1
-                trans_map[flow.source].append(inv1)
+                if isinstance(source_object, PetriNet.Place):
+                    inv1 = PetriNet.Transition(f"sfl_{flow.get_id()}", None)
+                    net.transitions.add(inv1)
+                    add_arc_from_to(source_object, inv1, net)
+                    source_object = inv1
+                    trans_map[flow.source].append(inv1)
 
-            if isinstance(target_object, PetriNet.Place):
-                inv2 = PetriNet.Transition(f"tfl_{flow.get_id()}", None)
-                net.transitions.add(inv2)
-                add_arc_from_to(inv2, target_object, net)
-                target_object = inv2
-                trans_map[flow.target].append(inv2)
+                if isinstance(target_object, PetriNet.Place):
+                    inv2 = PetriNet.Transition(f"tfl_{flow.get_id()}", None)
+                    net.transitions.add(inv2)
+                    add_arc_from_to(inv2, target_object, net)
+                    target_object = inv2
+                    trans_map[flow.target].append(inv2)
 
-            add_arc_from_to(source_object, flow_place[flow], net)
-            add_arc_from_to(flow_place[flow], target_object, net)
+                add_arc_from_to(source_object, flow_place[flow], net)
+                add_arc_from_to(flow_place[flow], target_object, net)
 
     if inclusive_gateway_exit and inclusive_gateway_entry:
         # do the following steps if there are inclusive gateways:
@@ -236,6 +238,10 @@ def apply(bpmn_graph, parameters=None):
 
     if enable_reduction:
         reduction.apply_simple_reduction(net)
+
+    for place in list(net.places):
+        if len(place.in_arcs) == 0 and len(place.out_arcs) == 0 and not place in im and not place in fm:
+            remove_place(net, place)
 
     if return_flow_trans_map:
         return net, im, fm, flow_place, trans_map

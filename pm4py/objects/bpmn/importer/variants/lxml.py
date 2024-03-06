@@ -32,6 +32,14 @@ def parse_element(bpmn_graph, counts, curr_el, parents, incoming_dict, outgoing_
         participant = BPMN.Participant(id=participant_id, name=name, process=None, process_ref=process_ref)
         bpmn_graph.add_node(participant)
         nodes_dict[participant_id] = participant
+    elif tag.endswith("textannotation"):
+        annotation_id = curr_el.get("id")
+        text = ""
+        for child in curr_el:
+            text = child.text
+        annotation = BPMN.TextAnnotation(id=annotation_id, text=text, process=process)
+        bpmn_graph.add_node(annotation)
+        nodes_dict[annotation_id] = annotation
     elif tag.endswith("subprocess"): # subprocess invocation
         name = curr_el.get("name").replace("\r", "").replace("\n", "") if "name" in curr_el.attrib else ""
         subprocess = BPMN.SubProcess(id=curr_el.get("id"), name=name, process=process, depth=rec_depth)
@@ -195,12 +203,14 @@ def parse_element(bpmn_graph, counts, curr_el, parents, incoming_dict, outgoing_
     elif tag.endswith("incoming"): # incoming flow of a node
         name = curr_el.get("name").replace("\r", "").replace("\n", "") if "name" in curr_el.attrib else ""
         if node is not None:
-            incoming_dict[curr_el.text.strip()] = (node, process, tag, name, parents)
+            if curr_el.text.strip() not in incoming_dict:
+                incoming_dict[curr_el.text.strip()] = (node, process, tag, name, parents)
     elif tag.endswith("outgoing"): # outgoing flow of a node
         name = curr_el.get("name").replace("\r", "").replace("\n", "") if "name" in curr_el.attrib else ""
         if node is not None:
-            outgoing_dict[curr_el.text.strip()] = (node, process, tag, name, parents)
-    elif tag.endswith("sequenceflow") or tag.endswith("messageflow"): # normal sequence flow between two nodes
+            if curr_el.text.strip() not in outgoing_dict:
+                outgoing_dict[curr_el.text.strip()] = (node, process, tag, name, parents)
+    elif tag.endswith("sequenceflow") or tag.endswith("messageflow") or tag.endswith("association"):
         seq_flow_id = curr_el.get("id")
         source_ref = curr_el.get("sourceRef")
         target_ref = curr_el.get("targetRef")
@@ -239,6 +249,8 @@ def parse_element(bpmn_graph, counts, curr_el, parents, incoming_dict, outgoing_
         for seq_flow_id in outgoing_dict:
             if outgoing_dict[seq_flow_id][0] in nodes_dict:
                 outgoing_dict[seq_flow_id] = (nodes_dict[outgoing_dict[seq_flow_id][0]], outgoing_dict[seq_flow_id][1], outgoing_dict[seq_flow_id][2], outgoing_dict[seq_flow_id][3], outgoing_dict[seq_flow_id][4])
+
+
         for flow_id in flow_info:
             if flow_id in outgoing_dict and flow_id in incoming_dict:
                 flow = None
@@ -251,6 +263,8 @@ def parse_element(bpmn_graph, counts, curr_el, parents, incoming_dict, outgoing_
                         if par_tag.endswith("collaboration"):
                             collaboration_id = par.get("id")
                     flow = BPMN.MessageFlow(outgoing_dict[flow_id][0], incoming_dict[flow_id][0], id=flow_id, name=outgoing_dict[flow_id][3], process=collaboration_id)
+                elif flow_type.endswith("association"):
+                    flow = BPMN.Association(outgoing_dict[flow_id][0], incoming_dict[flow_id][0], id=flow_id, name=outgoing_dict[flow_id][3], process=outgoing_dict[flow_id][1])
                 else:
                     flow = BPMN.SequenceFlow(outgoing_dict[flow_id][0], incoming_dict[flow_id][0], id=flow_id, name=outgoing_dict[flow_id][3], process=outgoing_dict[flow_id][1])
 

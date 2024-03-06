@@ -121,7 +121,11 @@ def get_xml_string(bpmn_graph, parameters=None):
     for node in bpmn_graph.get_nodes():
         process = process_process[node.get_process()]
 
-        if isinstance(node, BPMN.StartEvent):
+        if isinstance(node, BPMN.TextAnnotation):
+            annotation = ET.SubElement(process, "bpmn:textAnnotation", {"id": node.get_id()})
+            text = ET.SubElement(annotation, "bpmn:text")
+            text.text = node.text
+        elif isinstance(node, BPMN.StartEvent):
             isInterrupting = "true" if node.get_isInterrupting() else "false"
             parallelMultiple = "true" if node.get_parallelMultiple() else "false"
             task = ET.SubElement(process, "bpmn:startEvent",
@@ -131,6 +135,7 @@ def get_xml_string(bpmn_graph, parameters=None):
             task = ET.SubElement(process, "bpmn:endEvent", {"id": node.get_id(), "name": node.get_name()})
         elif isinstance(node, BPMN.IntermediateCatchEvent):
             task = ET.SubElement(process, "bpmn:intermediateCatchEvent", {"id": node.get_id(), "name": node.get_name()})
+            messageEventDefinition = ET.SubElement(task, "bpmn:messageEventDefinition")
         elif isinstance(node, BPMN.IntermediateThrowEvent):
             task = ET.SubElement(process, "bpmn:intermediateThrowEvent", {"id": node.get_id(), "name": node.get_name()})
         elif isinstance(node, BPMN.BoundaryEvent):
@@ -142,19 +147,19 @@ def get_xml_string(bpmn_graph, parameters=None):
         elif isinstance(node, BPMN.ExclusiveGateway):
             task = ET.SubElement(process, "bpmn:exclusiveGateway",
                                  {"id": node.get_id(), "gatewayDirection": node.get_gateway_direction().value,
-                                  "name": ""})
+                                  "name": node.get_name()})
         elif isinstance(node, BPMN.ParallelGateway):
             task = ET.SubElement(process, "bpmn:parallelGateway",
                                  {"id": node.get_id(), "gatewayDirection": node.get_gateway_direction().value,
-                                  "name": ""})
+                                  "name": node.get_name()})
         elif isinstance(node, BPMN.InclusiveGateway):
             task = ET.SubElement(process, "bpmn:inclusiveGateway",
                                  {"id": node.get_id(), "gatewayDirection": node.get_gateway_direction().value,
-                                  "name": ""})
+                                  "name": node.get_name()})
         elif isinstance(node, BPMN.EventBasedGateway):
             task = ET.SubElement(process, "bpmn:eventBasedGateway",
                                  {"id": node.get_id(), "gatewayDirection": node.get_gateway_direction().value,
-                                  "name": ""})
+                                  "name": node.get_name()})
 
         for in_arc in node.get_in_arcs():
             arc_xml = ET.SubElement(task, "bpmn:incoming")
@@ -176,6 +181,12 @@ def get_xml_string(bpmn_graph, parameters=None):
                                                                "targetRef": str(target.get_id())})
         elif isinstance(flow, BPMN.MessageFlow):
             flow_xml = ET.SubElement(process, "bpmn:messageFlow", {"id": "id" + str(flow.get_id()), "name": flow.get_name(),
+                                                               "sourceRef": str(source.get_id()),
+                                                               "targetRef": str(target.get_id())})
+
+
+        elif isinstance(flow, BPMN.Association):
+            flow_xml = ET.SubElement(process, "bpmn:association", {"id": "id" + str(flow.get_id()),
                                                                "sourceRef": str(source.get_id()),
                                                                "targetRef": str(target.get_id())})
 

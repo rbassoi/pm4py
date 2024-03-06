@@ -226,6 +226,11 @@ class BPMN(object):
             self.process_ref = process_ref
             BPMN.BPMNNode.__init__(self, id, name, in_arcs, out_arcs, process=process)
 
+    class TextAnnotation(BPMNNode):
+        def __init__(self, id="", name="", in_arcs=None, out_arcs=None, process=None, text=None):
+            self.text = text
+            BPMN.BPMNNode.__init__(self, id, name, in_arcs, out_arcs, process=process)
+
     class Event(BPMNNode):
         def __init__(self, id="", name="", in_arcs=None, out_arcs=None, process=None):
             BPMN.BPMNNode.__init__(self, id, name, in_arcs, out_arcs, process=process)
@@ -440,6 +445,10 @@ class BPMN(object):
             BPMN.Flow.__init__(self, source, target, id=id, name=name, process=process)
 
     class MessageFlow(Flow):
+        def __init__(self, source, target, id="", name="", process=None):
+            BPMN.Flow.__init__(self, source, target, id=id, name=name, process=process)
+
+    class Association(Flow):
         def __init__(self, source, target, id="", name="", process=None):
             BPMN.Flow.__init__(self, source, target, id=id, name=name, process=process)
 

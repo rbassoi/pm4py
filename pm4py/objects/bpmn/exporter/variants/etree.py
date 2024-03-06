@@ -61,21 +61,35 @@ def get_xml_string(bpmn_graph, parameters=None):
 
     if len(all_processes) > 1:
         # when several swimlanes exist, their elements should be annexed to the same BPMN plane
-        bpmn_plane_id = "id" + str(uuid.uuid4())
+        collaboration_nodes = [x for x in bpmn_graph.get_nodes() if isinstance(x, BPMN.Collaboration)]
+        if collaboration_nodes:
+            bpmn_plane_id = collaboration_nodes[0].get_id()
+        else:
+            bpmn_plane_id = "id" + str(uuid.uuid4())
+
         process_collaboration = ET.SubElement(definitions, "bpmn:collaboration", {"id": bpmn_plane_id})
 
-        for process in all_processes:
-            part_id = "id" + str(uuid.uuid4())
-            ET.SubElement(process_collaboration, "bpmn:participant", {"id": part_id, "name": process, "processRef": "id" + process })
-            process_participants[process] = part_id
+        participant_nodes = [x for x in bpmn_graph.get_nodes() if isinstance(x, BPMN.Participant)]
+        if participant_nodes:
+            for process in participant_nodes:
+                ET.SubElement(process_collaboration, "bpmn:participant", {"id": process.get_id(), "name": process.get_name(), "processRef": "id" + process.process_ref})
+                all_processes.add(process.process_ref)
+        else:
+            for process in all_processes:
+                part_id = "id" + str(uuid.uuid4())
+                ET.SubElement(process_collaboration, "bpmn:participant", {"id": part_id, "name": process, "processRef": "id" + process })
+                process_participants[process] = part_id
     else:
         bpmn_plane_id = "id" + list(all_processes)[0]
 
     for process in all_processes:
-        p = ET.SubElement(definitions, "bpmn:process",
-                          {"id": "id" + process, "isClosed": "false", "isExecutable": "false",
-                           "processType": "None"})
-        process_process[process] = p
+        if process != bpmn_plane_id:
+            p = ET.SubElement(definitions, "bpmn:process",
+                              {"id": "id" + process, "isClosed": "false", "isExecutable": "false",
+                               "processType": "None"})
+            process_process[process] = p
+        else:
+            process_process[process] = process_collaboration
 
     diagram = ET.SubElement(definitions, "bpmndi:BPMNDiagram", {"id": "id" + str(uuid.uuid4()), "name": "diagram"})
 
@@ -87,12 +101,13 @@ def get_xml_string(bpmn_graph, parameters=None):
     for node in bpmn_graph.get_nodes():
         process = node.get_process()
 
-        node_shape = ET.SubElement(process_planes[process], "bpmndi:BPMNShape",
-                                   {"bpmnElement": node.get_id(), "id": node.get_id() + "_gui"})
-        node_shape_layout = ET.SubElement(node_shape, "omgdc:Bounds",
-                                          {"height": str(layout.get(node).get_height()), "width": str(layout.get(node).get_width()),
-                                           "x": str(layout.get(node).get_x()),
-                                           "y": str(layout.get(node).get_y())})
+        if process != bpmn_plane_id:
+            node_shape = ET.SubElement(process_planes[process], "bpmndi:BPMNShape",
+                                       {"bpmnElement": node.get_id(), "id": node.get_id() + "_gui"})
+            node_shape_layout = ET.SubElement(node_shape, "omgdc:Bounds",
+                                              {"height": str(layout.get(node).get_height()), "width": str(layout.get(node).get_width()),
+                                               "x": str(layout.get(node).get_x()),
+                                               "y": str(layout.get(node).get_y())})
 
     for flow in bpmn_graph.get_flows():
         process = flow.get_process()
@@ -136,8 +151,10 @@ def get_xml_string(bpmn_graph, parameters=None):
             task = ET.SubElement(process, "bpmn:inclusiveGateway",
                                  {"id": node.get_id(), "gatewayDirection": node.get_gateway_direction().value,
                                   "name": ""})
-        else:
-            raise Exception("Unexpected node type.")
+        elif isinstance(node, BPMN.EventBasedGateway):
+            task = ET.SubElement(process, "bpmn:eventBasedGateway",
+                                 {"id": node.get_id(), "gatewayDirection": node.get_gateway_direction().value,
+                                  "name": ""})
 
         for in_arc in node.get_in_arcs():
             arc_xml = ET.SubElement(task, "bpmn:incoming")
@@ -152,8 +169,14 @@ def get_xml_string(bpmn_graph, parameters=None):
 
         source = flow.get_source()
         target = flow.get_target()
-        flow_xml = ET.SubElement(process, "bpmn:sequenceFlow", {"id": "id" + str(flow.get_id()), "name": flow.get_name(),
-                                                           "sourceRef": str(source.get_id()),
-                                                           "targetRef": str(target.get_id())})
+
+        if isinstance(flow, BPMN.SequenceFlow):
+            flow_xml = ET.SubElement(process, "bpmn:sequenceFlow", {"id": "id" + str(flow.get_id()), "name": flow.get_name(),
+                                                               "sourceRef": str(source.get_id()),
+                                                               "targetRef": str(target.get_id())})
+        elif isinstance(flow, BPMN.MessageFlow):
+            flow_xml = ET.SubElement(process, "bpmn:messageFlow", {"id": "id" + str(flow.get_id()), "name": flow.get_name(),
+                                                               "sourceRef": str(source.get_id()),
+                                                               "targetRef": str(target.get_id())})
 
     return minidom.parseString(ET.tostring(definitions)).toprettyxml(encoding=encoding)

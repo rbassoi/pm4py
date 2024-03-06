@@ -135,7 +135,12 @@ def get_xml_string(bpmn_graph, parameters=None):
         elif isinstance(node, BPMN.BoundaryEvent):
             task = ET.SubElement(process, "bpmn:boundaryEvent", {"id": node.get_id(), "name": node.get_name()})
         elif isinstance(node, BPMN.Task):
-            task = ET.SubElement(process, "bpmn:task", {"id": node.get_id(), "name": node.get_name()})
+            if isinstance(node, BPMN.UserTask):
+                task = ET.SubElement(process, "bpmn:userTask", {"id": node.get_id(), "name": node.get_name()})
+            elif isinstance(node, BPMN.SendTask):
+                task = ET.SubElement(process, "bpmn:sendTask", {"id": node.get_id(), "name": node.get_name()})
+            else:
+                task = ET.SubElement(process, "bpmn:task", {"id": node.get_id(), "name": node.get_name()})
         elif isinstance(node, BPMN.SubProcess):
             task = ET.SubElement(process, "bpmn:subProcess", {"id": node.get_id(), "name": node.get_name()})
         elif isinstance(node, BPMN.ExclusiveGateway):

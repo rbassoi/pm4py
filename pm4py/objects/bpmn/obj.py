@@ -340,6 +340,14 @@ class BPMN(object):
         def __init__(self, id="", name="", in_arcs=None, out_arcs=None, process=None):
             BPMN.Activity.__init__(self, id, name, in_arcs, out_arcs, process=process)
 
+    class UserTask(Task):
+        def __init__(self, id="", name="", in_arcs=None, out_arcs=None, process=None):
+            BPMN.Task.__init__(self, id, name, in_arcs, out_arcs, process=process)
+
+    class SendTask(Task):
+        def __init__(self, id="", name="", in_arcs=None, out_arcs=None, process=None):
+            BPMN.Task.__init__(self, id, name, in_arcs, out_arcs, process=process)
+
     class SubProcess(Activity):
         def __init__(self, id="", name="", in_arcs=None, out_arcs=None, process=None, depth=None):
             self.__depth = depth

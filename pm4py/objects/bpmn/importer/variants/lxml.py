@@ -59,7 +59,12 @@ def parse_element(bpmn_graph, counts, curr_el, parents, incoming_dict, outgoing_
         name = curr_el.get("name").replace("\r", "").replace("\n", "") if "name" in curr_el.attrib else ""
         #this_type = str(curr_el.tag)
         #this_type = this_type[this_type.index("}") + 1:]
-        task = BPMN.Task(id=id, name=name, process=process)
+        if tag.endswith("usertask"):
+            task = BPMN.UserTask(id=id, name=name, process=process)
+        elif tag.endswith("sendtask"):
+            task = BPMN.SendTask(id=id, name=name, process=process)
+        else:
+            task = BPMN.Task(id=id, name=name, process=process)
         bpmn_graph.add_node(task)
         node = task
         nodes_dict[id] = node

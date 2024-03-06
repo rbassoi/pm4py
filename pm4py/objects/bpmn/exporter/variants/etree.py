@@ -53,7 +53,8 @@ def get_xml_string(bpmn_graph, parameters=None):
     all_processes = set()
     process_planes = {}
     process_process = {}
-    process_participants = {}
+    process_collaboration = None
+
     for node in bpmn_graph.get_nodes():
         all_processes.add(node.get_process())
     for flow in bpmn_graph.get_flows():
@@ -64,8 +65,6 @@ def get_xml_string(bpmn_graph, parameters=None):
         collaboration_nodes = [x for x in bpmn_graph.get_nodes() if isinstance(x, BPMN.Collaboration)]
         if collaboration_nodes:
             bpmn_plane_id = collaboration_nodes[0].get_id()
-        else:
-            bpmn_plane_id = "id" + str(uuid.uuid4())
 
         process_collaboration = ET.SubElement(definitions, "bpmn:collaboration", {"id": bpmn_plane_id})
 
@@ -74,11 +73,6 @@ def get_xml_string(bpmn_graph, parameters=None):
             for process in participant_nodes:
                 ET.SubElement(process_collaboration, "bpmn:participant", {"id": process.get_id(), "name": process.get_name(), "processRef": "id" + process.process_ref})
                 all_processes.add(process.process_ref)
-        else:
-            for process in all_processes:
-                part_id = "id" + str(uuid.uuid4())
-                ET.SubElement(process_collaboration, "bpmn:participant", {"id": part_id, "name": process, "processRef": "id" + process })
-                process_participants[process] = part_id
     else:
         bpmn_plane_id = "id" + list(all_processes)[0]
 
@@ -88,7 +82,7 @@ def get_xml_string(bpmn_graph, parameters=None):
                               {"id": "id" + process, "isClosed": "false", "isExecutable": "false",
                                "processType": "None"})
             process_process[process] = p
-        else:
+        elif process_collaboration is not None:
             process_process[process] = process_collaboration
 
     diagram = ET.SubElement(definitions, "bpmndi:BPMNDiagram", {"id": "id" + str(uuid.uuid4()), "name": "diagram"})

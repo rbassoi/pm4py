@@ -1,11 +1,12 @@
 from enum import Enum
 
-from pm4py.objects.bpmn.layout.variants import graphviz
+from pm4py.objects.bpmn.layout.variants import graphviz, graphviz_new
 from pm4py.util import exec_utils
 
 
 class Variants(Enum):
     GRAPHVIZ = graphviz
+    GRAPHVIZ_NEW = graphviz_new
 
 
 DEFAULT_VARIANT = Variants.GRAPHVIZ

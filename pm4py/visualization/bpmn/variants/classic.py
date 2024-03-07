@@ -16,19 +16,21 @@ class Parameters(Enum):
     FONT_SIZE = "font_size"
     BGCOLOR = "bgcolor"
     ENABLE_SWIMLANES = "enable_swimlanes"
+    INCLUDE_NAME_IN_EVENTS = "include_name_in_events"
 
 
-def add_bpmn_node(graph, n, font_size):
+def add_bpmn_node(graph, n, font_size, include_name_in_events):
     n_id = str(id(n))
+    node_label = str(n.name) if include_name_in_events else ""
 
     if isinstance(n, BPMN.Task):
         graph.node(n_id, shape="box", label=n.get_name(), fontsize=font_size)
     elif isinstance(n, BPMN.StartEvent):
-        graph.node(n_id, label=n.name, shape="ellipse", style="filled", fillcolor="green", fontsize=font_size)
+        graph.node(n_id, label=node_label, shape="underline", fontcolor="green", fontsize=font_size)
     elif isinstance(n, BPMN.EndEvent):
-        graph.node(n_id, label=n.name, shape="underline", fontcolor="orange", fontsize=font_size)
+        graph.node(n_id, label=node_label, shape="underline", fontcolor="orange", fontsize=font_size)
     elif isinstance(n, BPMN.Event):
-        graph.node(n_id, label=n.name, shape="underline", fontsize=font_size)
+        graph.node(n_id, label=node_label, shape="underline", fontsize=font_size)
     elif isinstance(n, BPMN.TextAnnotation):
         graph.node(n_id, shape="box", label=n.text, fontsize=font_size)
     elif isinstance(n, BPMN.ParallelGateway):
@@ -76,6 +78,7 @@ def apply(bpmn_graph: BPMN, parameters: Optional[Dict[Any, Any]] = None) -> grap
     font_size = str(font_size)
     bgcolor = exec_utils.get_param_value(Parameters.BGCOLOR, parameters, constants.DEFAULT_BGCOLOR)
     enable_swimlanes = exec_utils.get_param_value(Parameters.ENABLE_SWIMLANES, parameters, True)
+    include_name_in_events = exec_utils.get_param_value(Parameters.INCLUDE_NAME_IN_EVENTS, parameters, True)
 
     filename = tempfile.NamedTemporaryFile(suffix='.gv')
     filename.close()
@@ -97,7 +100,7 @@ def apply(bpmn_graph: BPMN, parameters: Optional[Dict[Any, Any]] = None) -> grap
 
     if len(participant_nodes) == 1 or not enable_swimlanes:
         for n in nodes:
-            if add_bpmn_node(viz, n, font_size):
+            if add_bpmn_node(viz, n, font_size, include_name_in_events):
                 added_nodes.add(str(id(n)))
     else:
         viz.node('@@anchor', style='invis')
@@ -108,7 +111,7 @@ def apply(bpmn_graph: BPMN, parameters: Optional[Dict[Any, Any]] = None) -> grap
                 with viz.subgraph(name="cluster" + subp) as c:
                     c.attr(label=pref_pname[subp])
                     for n in process_ids_members[subp]:
-                        if add_bpmn_node(c, n, font_size):
+                        if add_bpmn_node(c, n, font_size, include_name_in_events):
                             added_nodes.add(str(id(n)))
                             this_added_nodes.append(str(id(n)))
                     c.attr(rank='same')

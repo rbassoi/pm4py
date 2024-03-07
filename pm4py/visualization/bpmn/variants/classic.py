@@ -17,6 +17,7 @@ class Parameters(Enum):
     BGCOLOR = "bgcolor"
     ENABLE_SWIMLANES = "enable_swimlanes"
     INCLUDE_NAME_IN_EVENTS = "include_name_in_events"
+    SWIMLANES_MARGIN = "swimlanes_margin"
 
 
 def add_bpmn_node(graph, n, font_size, include_name_in_events):
@@ -79,6 +80,8 @@ def apply(bpmn_graph: BPMN, parameters: Optional[Dict[Any, Any]] = None) -> grap
     bgcolor = exec_utils.get_param_value(Parameters.BGCOLOR, parameters, constants.DEFAULT_BGCOLOR)
     enable_swimlanes = exec_utils.get_param_value(Parameters.ENABLE_SWIMLANES, parameters, True)
     include_name_in_events = exec_utils.get_param_value(Parameters.INCLUDE_NAME_IN_EVENTS, parameters, True)
+    swimlanes_margin = exec_utils.get_param_value(Parameters.SWIMLANES_MARGIN, parameters, 35)
+    swimlanes_margin = str(swimlanes_margin)
 
     filename = tempfile.NamedTemporaryFile(suffix='.gv')
     filename.close()
@@ -96,6 +99,7 @@ def apply(bpmn_graph: BPMN, parameters: Optional[Dict[Any, Any]] = None) -> grap
         process_ids_members[n.process].append(n)
     participant_nodes = [n for n in nodes if isinstance(n, BPMN.Participant)]
     pref_pname = {x.process_ref: x.name for x in participant_nodes}
+    pref_pid = {x.process_ref: str(id(x)) for x in participant_nodes}
     added_nodes = set()
 
     if len(participant_nodes) == 1 or not enable_swimlanes:
@@ -108,8 +112,9 @@ def apply(bpmn_graph: BPMN, parameters: Optional[Dict[Any, Any]] = None) -> grap
         for subp in process_ids:
             this_added_nodes = []
             if subp in pref_pname:
-                with viz.subgraph(name="cluster" + subp) as c:
+                with viz.subgraph(name="cluster"+pref_pid[subp]) as c:
                     c.attr(label=pref_pname[subp])
+                    c.attr(margin=swimlanes_margin)
                     for n in process_ids_members[subp]:
                         if add_bpmn_node(c, n, font_size, include_name_in_events):
                             added_nodes.add(str(id(n)))

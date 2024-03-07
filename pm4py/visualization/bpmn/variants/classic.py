@@ -102,7 +102,7 @@ def apply(bpmn_graph: BPMN, parameters: Optional[Dict[Any, Any]] = None) -> grap
     pref_pid = {x.process_ref: str(id(x)) for x in participant_nodes}
     added_nodes = set()
 
-    if len(participant_nodes) == 1 or not enable_swimlanes:
+    if len(participant_nodes) < 1 or not enable_swimlanes:
         for n in nodes:
             if add_bpmn_node(viz, n, font_size, include_name_in_events):
                 added_nodes.add(str(id(n)))

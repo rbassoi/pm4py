@@ -9,7 +9,7 @@ class Variants(Enum):
     GRAPHVIZ_NEW = graphviz_new
 
 
-DEFAULT_VARIANT = Variants.GRAPHVIZ
+DEFAULT_VARIANT = Variants.GRAPHVIZ_NEW
 
 
 def apply(bpmn_graph, variant=DEFAULT_VARIANT, parameters=None):

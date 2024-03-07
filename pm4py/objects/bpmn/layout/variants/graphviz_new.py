@@ -28,7 +28,7 @@ def apply(bpmn_graph, parameters=None):
     gviz = bpmn_visualizer.apply(bpmn_graph, parameters=vis_parameters)
     bpmn_visualizer.save(gviz, filename_svg.name)
 
-    #print(filename_svg.name)
+    print(filename_svg.name)
 
     nodes_p, edges_p = svg_pos_parser.apply(filename_svg.name)
 
@@ -60,4 +60,5 @@ def apply(bpmn_graph, parameters=None):
                 for wayp in flow_info["waypoints"]:
                     flow.add_waypoint(wayp)
 
+    return bpmn_graph
 

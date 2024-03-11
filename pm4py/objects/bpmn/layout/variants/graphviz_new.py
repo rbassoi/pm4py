@@ -1,16 +1,27 @@
-import uuid
-from collections import Counter
-from copy import deepcopy
-from enum import Enum
-
 from pm4py.objects.bpmn.obj import BPMN
-from pm4py.objects.bpmn.util.sorting import get_sorted_nodes_edges
-from pm4py.util import exec_utils
+from typing import Optional, Dict, Any
+
 from copy import copy
 import tempfile
 
 
-def apply(bpmn_graph, parameters=None):
+def apply(bpmn_graph: BPMN, parameters: Optional[Dict[Any, Any]] = None) -> BPMN:
+    """
+    Layouts the BPMN graphviz using directly the information about node positioning
+    and edges waypoints provided in the SVG obtained from Graphviz.
+
+    Parameters
+    -----------------
+    bpmn_graph
+        BPMN graph
+    parameters
+        Optional parameters of the method
+
+    Returns
+    ----------------
+    layouted_bpmn
+        Layouted BPMN
+    """
     if parameters is None:
         parameters = {}
 
@@ -61,4 +72,3 @@ def apply(bpmn_graph, parameters=None):
                     flow.add_waypoint(wayp)
 
     return bpmn_graph
-

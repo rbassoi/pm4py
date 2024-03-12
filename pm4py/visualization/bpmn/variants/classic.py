@@ -107,7 +107,9 @@ def apply(bpmn_graph: BPMN, parameters: Optional[Dict[Any, Any]] = None) -> grap
             if add_bpmn_node(viz, n, font_size, include_name_in_events):
                 added_nodes.add(str(id(n)))
     else:
-        viz.node('@@anchor', style='invis')
+        # style='invis'
+        viz.node('@@anchorStart', style='invis')
+        viz.node('@@anchorEnd', style='invis')
 
         for subp in process_ids:
             this_added_nodes = []
@@ -119,10 +121,11 @@ def apply(bpmn_graph: BPMN, parameters: Optional[Dict[Any, Any]] = None) -> grap
                         if add_bpmn_node(c, n, font_size, include_name_in_events):
                             added_nodes.add(str(id(n)))
                             this_added_nodes.append(str(id(n)))
-                    c.attr(rank='same')
+                    #c.attr(rank='same')
 
-            if this_added_nodes:
-                viz.edge('@@anchor', this_added_nodes[0], style='invis')
+                    if this_added_nodes:
+                        viz.edge('@@anchorStart', this_added_nodes[0], style='invis')
+                        viz.edge(this_added_nodes[-1], '@@anchorEnd', style='invis')
 
     for e in edges:
         n_id_1 = str(id(e[0]))

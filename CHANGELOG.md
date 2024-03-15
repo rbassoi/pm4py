@@ -14,6 +14,8 @@
   * fixing random variables support
 * bb759da149b434d0e279256c8c6d397b06079729
   * fixing sampling
+* a816fb5f000a907b603b44aba1470463109028f0
+  * bug fix OC-DFG visualization
 
 ### Removed
 

@@ -27,9 +27,9 @@ def add_bpmn_node(graph, n, font_size, include_name_in_events):
     if isinstance(n, BPMN.Task):
         graph.node(n_id, shape="box", label=n.get_name(), fontsize=font_size)
     elif isinstance(n, BPMN.StartEvent):
-        graph.node(n_id, label=node_label, shape="underline", fontcolor="green", fontsize=font_size)
+        graph.node(n_id, label="", shape="circle", style="filled", fillcolor="green", fontsize=font_size)
     elif isinstance(n, BPMN.EndEvent):
-        graph.node(n_id, label=node_label, shape="underline", fontcolor="orange", fontsize=font_size)
+        graph.node(n_id, label="", shape="circle", style="filled", fillcolor="orange", fontsize=font_size)
     elif isinstance(n, BPMN.Event):
         graph.node(n_id, label=node_label, shape="underline", fontsize=font_size)
     elif isinstance(n, BPMN.TextAnnotation):

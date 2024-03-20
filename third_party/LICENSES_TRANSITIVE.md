@@ -11,7 +11,7 @@ libraries are added/removed.
 | cycler | https://pypi.org/project/cycler | BSD License | 0.12.1      |
 | deprecation | https://pypi.org/project/deprecation | Apache Software License (Apache 2) | 2.1.0       |
 | fonttools | https://pypi.org/project/fonttools | MIT License (MIT) | 4.49.0      |
-| graphviz | https://pypi.org/project/graphviz | MIT License (MIT) | 0.20.1      |
+| graphviz | https://pypi.org/project/graphviz | MIT License (MIT) | 0.20.2      |
 | intervaltree | https://pypi.org/project/intervaltree | Apache Software License (Apache License, Version 2.0) | 3.1.0       |
 | kiwisolver | https://pypi.org/project/kiwisolver | BSD License | 1.4.5       |
 | lxml | https://pypi.org/project/lxml | BSD License (BSD-3-Clause) | 5.1.0       |

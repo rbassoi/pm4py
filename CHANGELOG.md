@@ -6,6 +6,13 @@
 ### Added
 
 ### Changed
+* 100b95c22a47eace59fc631541b2c34c9179765d
+  09d4e7a07f92fddd90c1b1bbe572308380d7c8f3
+  * changed BPMN visualizer
+* f7b44a41a79760e4f092be2bf98087ea48b63de4
+  * changed BPMN conversion
+* db98b6fbf16847eceab4b53216cc1a1096936785
+  * improved BPMN support (collaboration, gateways, ...)
 
 ### Deprecated
 

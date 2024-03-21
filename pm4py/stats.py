@@ -202,7 +202,8 @@ def get_variants(log: Union[EventLog, pd.DataFrame], activity_key: str = "concep
     :param activity_key: attribute to be used for the activity
     :param timestamp_key: attribute to be used for the timestamp
     :param case_id_key: attribute to be used as case identifier
-    :param max_repetitions: maximum number of consecutive repetitions for an activity
+    :param max_repetitions: maximum number of consecutive repetitions for an activity.
+    For example, {('A', 'B', 'C'): 3, ('A', 'B', 'B', 'B', 'C'): 2, ('A', 'B', 'B', 'B', 'B', 'B', 'C'): 1} would be reduced to: {('A', 'B', 'C'): 6} if max_repetitions=1; {('A', 'B', 'C'): 3, ('A', 'B', 'B', 'C'): 3} if max_repetitions=2; {('A', 'B', 'C'): 3, ('A', 'B', 'B', 'B', 'C'): 3} if max_repetitions=3; {('A', 'B', 'C'): 3, ('A', 'B', 'B', 'B', 'C'): 2, ('A', 'B', 'B', 'B', 'B', 'C'): 1} if max_repetitions=4;
     :rtype: ``Dict[Tuple[str], List[Trace]]``
 
     .. code-block:: python3
@@ -222,7 +223,8 @@ def get_variants_as_tuples(log: Union[EventLog, pd.DataFrame], activity_key: str
     :param activity_key: attribute to be used for the activity
     :param timestamp_key: attribute to be used for the timestamp
     :param case_id_key: attribute to be used as case identifier
-    :param max_repetitions: maximum number of consecutive repetitions for an activity
+    :param max_repetitions: maximum number of consecutive repetitions for an activity.
+    For example, {('A', 'B', 'C'): 3, ('A', 'B', 'B', 'B', 'C'): 2, ('A', 'B', 'B', 'B', 'B', 'B', 'C'): 1} would be reduced to: {('A', 'B', 'C'): 6} if max_repetitions=1; {('A', 'B', 'C'): 3, ('A', 'B', 'B', 'C'): 3} if max_repetitions=2; {('A', 'B', 'C'): 3, ('A', 'B', 'B', 'B', 'C'): 3} if max_repetitions=3; {('A', 'B', 'C'): 3, ('A', 'B', 'B', 'B', 'C'): 2, ('A', 'B', 'B', 'B', 'B', 'C'): 1} if max_repetitions=4;
     :rtype: ``Dict[Tuple[str], List[Trace]]``
 
     .. code-block:: python3

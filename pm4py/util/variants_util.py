@@ -70,7 +70,14 @@ def __aggregate_variant(variant: Collection[str], max_repetitions: int = 1) -> C
 
 def aggregate_consecutive_activities_in_variants(variants: Dict[Collection[str], Union[int, List]], max_repetitions: int = 1) -> Dict[Collection[str], Union[int, List]]:
     """
-    Aggregate the consecutive activities in the variant
+    Aggregate the consecutive activities in the variant.
+
+    For example, {('A', 'B', 'C'): 3, ('A', 'B', 'B', 'B', 'C'): 2, ('A', 'B', 'B', 'B', 'B', 'B', 'C'): 1}
+    Would be reduced to:
+    - {('A', 'B', 'C'): 6} if max_repetitions=1
+    - {('A', 'B', 'C'): 3, ('A', 'B', 'B', 'C'): 3} if max_repetitions=2
+    - {('A', 'B', 'C'): 3, ('A', 'B', 'B', 'B', 'C'): 3} if max_repetitions=3
+    - {('A', 'B', 'C'): 3, ('A', 'B', 'B', 'B', 'C'): 2, ('A', 'B', 'B', 'B', 'B', 'C'): 1} if max_repetitions=4
 
     Parameters
     ----------------

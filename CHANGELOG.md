@@ -1,6 +1,28 @@
 # Changelog of pm4py
 
 
+## pm4py 2.7.12.1 (2024.XX.YY)
+
+### Added
+
+### Changed
+
+### Deprecated
+
+### Fixed
+* 1c6887fda74d2b0a36f483351a6978738517e61e
+  * bug fix inductive miner infreuent
+* e7e8ebf6894d9bc85febc43c82613d185e16ee3b
+  * solving performance bottleneck in IM
+
+### Removed
+
+### Other
+
+
+---
+
+
 ## pm4py 2.7.12 (2024.03.21)
 
 ### Added
@@ -34,7 +56,9 @@
 
 ### Other
 
+
 ---
+
 
 ## pm4py 2.7.11 (2024.03.01)
 

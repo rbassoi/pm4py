@@ -14,6 +14,20 @@
   * bug fix inductive miner infreuent
 * e7e8ebf6894d9bc85febc43c82613d185e16ee3b
   * solving performance bottleneck in IM
+* 4811bbde07f6639deb7c87bdda61504de0889873
+  * resolved indeterminism in IM fallthroughs
+* df1db968adf8bb5f483410be0ceef2928c2b3e6c
+  * missing tree sort in IM
+* 4958e2b8407c01923e5b65c7e46a5f89d8f927dc
+  * missing fold of PT objects in IM
+* 8e404c6c2b53cf14687d1f82d53a4a0fc4ac99d6
+  * fixed folding of PTs
+* a871cbc4bdeaa81013fbfa7a6ec5054d494cb329
+  * fixed parsing of PTs
+* a72cd92410653bf2f0b2ff35ab5d06bf73a95305
+  eddae51259114caf4e1447beee4981f2e00bcb9c
+  69dcf7a836a5af3ab5da64701f43e3d8cf6b07aa
+  * fixed WF-net-to-PT conversion
 
 ### Removed
 

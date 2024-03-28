@@ -6,6 +6,8 @@
 ### Added
 
 ### Changed
+* 5641f9f2c830b567c138524a0b5e705a3836102a
+  * minor change OCEL names_stripping
 
 ### Deprecated
 
@@ -28,6 +30,10 @@
   eddae51259114caf4e1447beee4981f2e00bcb9c
   69dcf7a836a5af3ab5da64701f43e3d8cf6b07aa
   * fixed WF-net-to-PT conversion
+* 0980ac460d69beb9ede4403a3ed002c1cd30536e
+  * fixed docstring OCEL flattening
+* 6f9c67f48ad89e88d58c2481e85c6f3de9e6e1a5
+  * fix small issues with stochastic Petri net
 
 ### Removed
 

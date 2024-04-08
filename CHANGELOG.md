@@ -34,6 +34,12 @@
   * fixed docstring OCEL flattening
 * 6f9c67f48ad89e88d58c2481e85c6f3de9e6e1a5
   * fix small issues with stochastic Petri net
+* 6781a90df2ba8d90155e7b5135520076843cac33
+  * bug fix DECLARE discovery and conformance checking
+* 7330d5100c8b8916eba9e4b0f31e8fa1f9157c98
+  * bug fix log skeleton discovery (always after, always before)
+* ec2f0b5b43d83a7b9fa154456241e3c685fcb721
+  * bug fix log-to-prefix-tree discovery (final nodes)
 
 ### Removed
 

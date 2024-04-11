@@ -8,6 +8,8 @@
 ### Changed
 * 5641f9f2c830b567c138524a0b5e705a3836102a
   * minor change OCEL names_stripping
+* c48882b88326608dc5c6a4101b8123c71a852e18
+  * parameter to enable/disable visualizations' view
 
 ### Deprecated
 
@@ -40,6 +42,10 @@
   * bug fix log skeleton discovery (always after, always before)
 * ec2f0b5b43d83a7b9fa154456241e3c685fcb721
   * bug fix log-to-prefix-tree discovery (final nodes)
+* d580fedd4b770ed85f6864cd6d435db2477684f2
+  * bumping release number. forcing numpy<2 and pandas<3
+* 4f8bbf6d884e25c5474479fd86fe7331076ac2fe
+  * bug fixes for Pandas >= 3.0 future support
 
 ### Removed
 

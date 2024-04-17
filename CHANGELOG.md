@@ -1,7 +1,35 @@
 # Changelog of pm4py
 
 
-## pm4py 2.7.12.1 (2024.XX.YY)
+## pm4py 2.7.13 (2024.04.19)
+
+### Added
+
+### Changed
+* 75c893999e32b3a1a6081db854b9a3cd10eaaa44
+  * Dockerfile refactoring
+* 7b80dad1fcc6955730357f46754c4a511b83ee58
+  * updating requirements list
+* 52459f95d42e2fc39568b0d685bd794c319f205a
+  * refactoring dependencies generation script
+
+### Deprecated
+
+### Fixed
+
+### Removed
+
+### Other
+* ed708047252f96f3bf103ba81d6139b433c39b85
+  * printing Python versions in tests and examples
+* c48882b88326608dc5c6a4101b8123c71a852e18
+  * parameter to enable/disable visualizations
+
+
+---
+
+
+## pm4py 2.7.12.1 (2024.04.17)
 
 ### Added
 

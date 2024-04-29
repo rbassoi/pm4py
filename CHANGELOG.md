@@ -1,7 +1,7 @@
 # Changelog of pm4py
 
 
-## pm4py 2.7.13 (2024.04.19)
+## pm4py 2.7.13 (2024.05.03)
 
 ### Added
 
@@ -12,10 +12,14 @@
   * updating requirements list
 * 52459f95d42e2fc39568b0d685bd794c319f205a
   * refactoring dependencies generation script
+* 928ecf5f8192ff1ef7944c5b0a7be7c530814ad9
+  * refactoring OpenAI query interface
 
 ### Deprecated
 
 ### Fixed
+* 954c2fbdc258b90bcba85001592a5d2950a79724
+  * bug fix temporal profile conformance checking
 
 ### Removed
 

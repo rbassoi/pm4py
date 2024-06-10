@@ -14,9 +14,9 @@
     You should have received a copy of the GNU General Public License
     along with PM4Py.  If not, see <https://www.gnu.org/licenses/>.
 '''
-from collections import Counter
+from collections import Counter, deque
 from copy import deepcopy
-from typing import Any, Collection, Dict
+from typing import Any, Collection, Dict, Set
 
 
 class Marking(Counter):
@@ -79,12 +79,17 @@ class Marking(Counter):
 class PetriNet(object):
     class Place(object):
 
-        def __init__(self, name, in_arcs=None, out_arcs=None, properties=None):
+        def __init__(self, name, in_arcs=None, out_arcs=None, properties=None, inverse_map=None,
+                     preset=None, postset=None, label=None):
             print('test')
             self.__name = name
             self.__in_arcs = set() if in_arcs is None else in_arcs
             self.__out_arcs = set() if out_arcs is None else out_arcs
             self.__properties = dict() if properties is None else properties
+            self.__inverse_map = deque() if inverse_map is None else inverse_map
+            self.__preset: Set[PetriNet.Transition] = set() if preset is None else preset
+            self.__postset: Set[PetriNet.Transition] = set() if postset is None else postset
+            self.__label = label if label else None
 
         def __set_name(self, name):
             self.__name = name
@@ -100,6 +105,18 @@ class PetriNet(object):
 
         def __get_properties(self):
             return self.__properties
+
+        def __get_inverse_map(self):
+            return self.__in_arcs
+
+        def __get_preset(self):
+            return self.__in_arcs
+
+        def __get_postset(self):
+            return self.__in_arcs
+
+        def __get_label(self):
+            return self.__in_arcs
 
         def __repr__(self):
             return str(self.name)
@@ -118,7 +135,8 @@ class PetriNet(object):
         def __deepcopy__(self, memodict={}):
             if id(self) in memodict:
                 return memodict[id(self)]
-            new_place = PetriNet.Place(self.name, properties=self.properties)
+            new_place = PetriNet.Place(self.name, properties=self.properties,
+                                       inverse_map=self.inverse_map, label=self.label)
             memodict[id(self)] = new_place
             for arc in self.in_arcs:
                 new_arc = deepcopy(arc, memo=memodict)
@@ -126,21 +144,34 @@ class PetriNet(object):
             for arc in self.out_arcs:
                 new_arc = deepcopy(arc, memo=memodict)
                 new_place.out_arcs.add(new_arc)
+            for pre in self.preset:
+                new_pre = deepcopy(pre, memo=memodict)
+                new_place.preset.add(new_pre)
+            for post in self.preset:
+                new_post = deepcopy(post, memo=memodict)
+                new_place.preset.add(new_post)
+
             return new_place
 
         name = property(__get_name, __set_name)
         in_arcs = property(__get_in_arcs)
         out_arcs = property(__get_out_arcs)
         properties = property(__get_properties)
+        inverse_map = property(__get_inverse_map)
+        preset = property(__get_preset)
+        postset = property(__get_postset)
+        label = property(__get_label)
 
     class Transition(object):
 
-        def __init__(self, name, label=None, in_arcs=None, out_arcs=None, properties=None):
+        def __init__(self, name, label=None, in_arcs=None, out_arcs=None, properties=None, preset=None, postset=None):
             self.__name = name
             self.__label = None if label is None else label
             self.__in_arcs = set() if in_arcs is None else in_arcs
             self.__out_arcs = set() if out_arcs is None else out_arcs
             self.__properties = dict() if properties is None else properties
+            self.__preset: Set[PetriNet.Place] = set() if preset is None else preset
+            self.__postset: Set[PetriNet.Place] = set() if postset is None else postset
 
         def __set_name(self, name):
             self.__name = name
@@ -162,6 +193,12 @@ class PetriNet(object):
 
         def __get_properties(self):
             return self.__properties
+
+        def __get_preset(self):
+            return self.__in_arcs
+
+        def __get_postset(self):
+            return self.__in_arcs
 
         def __repr__(self):
             if self.label is None:
@@ -191,6 +228,12 @@ class PetriNet(object):
             for arc in self.out_arcs:
                 new_arc = deepcopy(arc, memo=memodict)
                 new_trans.out_arcs.add(new_arc)
+            for pre in self.preset:
+                new_pre = deepcopy(pre, memo=memodict)
+                new_trans.preset.add(new_pre)
+            for post in self.preset:
+                new_post = deepcopy(post, memo=memodict)
+                new_trans.preset.add(new_post)
             return new_trans
 
         name = property(__get_name, __set_name)
@@ -198,6 +241,8 @@ class PetriNet(object):
         in_arcs = property(__get_in_arcs)
         out_arcs = property(__get_out_arcs)
         properties = property(__get_properties)
+        preset = property(__get_preset)
+        postset = property(__get_postset)
 
     class Arc(object):
 

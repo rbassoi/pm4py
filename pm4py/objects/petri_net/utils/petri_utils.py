@@ -191,6 +191,8 @@ def add_arc_from_to(fr, to, net: PetriNet, weight=1, type=None) -> PetriNet.Arc:
     net.arcs.add(a)
     fr.out_arcs.add(a)
     to.in_arcs.add(a)
+    fr.postset.add(to)
+    to.preset.add(fr)
 
     return a
 

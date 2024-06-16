@@ -107,16 +107,16 @@ class PetriNet(object):
             return self.__properties
 
         def __get_inverse_map(self):
-            return self.__in_arcs
+            return self.__inverse_map
 
         def __get_preset(self):
-            return self.__in_arcs
+            return self.__preset
 
         def __get_postset(self):
-            return self.__in_arcs
+            return self.__postset
 
         def __get_label(self):
-            return self.__in_arcs
+            return self.__label
 
         def __repr__(self):
             return str(self.name)
@@ -195,10 +195,10 @@ class PetriNet(object):
             return self.__properties
 
         def __get_preset(self):
-            return self.__in_arcs
+            return self.__preset
 
         def __get_postset(self):
-            return self.__in_arcs
+            return self.__postset
 
         def __repr__(self):
             if self.label is None:

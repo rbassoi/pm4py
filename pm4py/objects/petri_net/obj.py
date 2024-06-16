@@ -81,7 +81,6 @@ class PetriNet(object):
 
         def __init__(self, name, in_arcs=None, out_arcs=None, properties=None, inverse_map=None,
                      preset=None, postset=None, label=None):
-            print('test')
             self.__name = name
             self.__in_arcs = set() if in_arcs is None else in_arcs
             self.__out_arcs = set() if out_arcs is None else out_arcs

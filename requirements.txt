@@ -13,3 +13,4 @@ pytz
 scipy
 tqdm
 cvxopt;python_version<'3.13'
+cachetools

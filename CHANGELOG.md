@@ -1,13 +1,54 @@
 # Changelog of pm4py
 
 
-## pm4py 2.7.12.1 (2024.XX.YY)
+## pm4py 2.7.13 (2024.05.03)
+
+### Added
+
+### Changed
+* 75c893999e32b3a1a6081db854b9a3cd10eaaa44
+  * Dockerfile refactoring
+* 7b80dad1fcc6955730357f46754c4a511b83ee58
+  * updating requirements list
+* 52459f95d42e2fc39568b0d685bd794c319f205a
+  * refactoring dependencies generation script
+* 928ecf5f8192ff1ef7944c5b0a7be7c530814ad9
+  * refactoring OpenAI query interface
+
+### Deprecated
+
+### Fixed
+* 954c2fbdc258b90bcba85001592a5d2950a79724
+  * bug fix temporal profile conformance checking
+* cd8f9fb9f49a5955f0a26f547770aefa8ff222b8
+  * issue with closing in-memory files when parsing a XES from string
+* d51bd9e24aed442f011917d6b77793b118bbf89f
+  * minor fix OCEL interleavings computation
+* 39d769cad1327c47d5948b0c40be4a90e41fcce7
+  * removed indeterminism in TBR with duplicate transitions
+
+### Removed
+
+### Other
+* ed708047252f96f3bf103ba81d6139b433c39b85
+  * printing Python versions in tests and examples
+* c48882b88326608dc5c6a4101b8123c71a852e18
+  * parameter to enable/disable visualizations
+* 607d2eb601299a23335f8c1976cc59f63bcae5f2
+  * added example for Inductive Miner LC
+
+---
+
+
+## pm4py 2.7.12.1 (2024.04.17)
 
 ### Added
 
 ### Changed
 * 5641f9f2c830b567c138524a0b5e705a3836102a
   * minor change OCEL names_stripping
+* c48882b88326608dc5c6a4101b8123c71a852e18
+  * parameter to enable/disable visualizations' view
 
 ### Deprecated
 
@@ -40,6 +81,10 @@
   * bug fix log skeleton discovery (always after, always before)
 * ec2f0b5b43d83a7b9fa154456241e3c685fcb721
   * bug fix log-to-prefix-tree discovery (final nodes)
+* d580fedd4b770ed85f6864cd6d435db2477684f2
+  * bumping release number. forcing numpy<2 and pandas<3
+* 4f8bbf6d884e25c5474479fd86fe7331076ac2fe
+  * bug fixes for Pandas >= 3.0 future support
 
 ### Removed
 

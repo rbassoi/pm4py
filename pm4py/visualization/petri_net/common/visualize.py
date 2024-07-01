@@ -2,7 +2,6 @@ import tempfile
 
 from graphviz import Digraph
 
-from pm4py.objects.petri_net.obj import Marking
 from pm4py.objects.petri_net.obj import Marking, PetriNet
 from pm4py.objects.petri_net import properties as petri_properties
 from pm4py.util import exec_utils, constants

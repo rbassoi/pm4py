@@ -3,9 +3,12 @@ import tempfile
 from graphviz import Digraph
 
 from pm4py.objects.petri_net.obj import Marking
+from pm4py.objects.petri_net.obj import Marking, PetriNet
 from pm4py.objects.petri_net import properties as petri_properties
 from pm4py.util import exec_utils, constants
 from enum import Enum
+from typing import List, Tuple, Dict
+from collections import defaultdict, deque
 from pm4py.util.constants import PARAMETER_CONSTANT_ACTIVITY_KEY, PARAMETER_CONSTANT_TIMESTAMP_KEY
 
 

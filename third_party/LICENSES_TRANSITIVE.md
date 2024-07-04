@@ -15,7 +15,7 @@
 | intervaltree | https://pypi.org/project/intervaltree | Apache Software License (Apache License, Version 2.0) | 3.1.0 |
 | kiwisolver | https://pypi.org/project/kiwisolver | BSD License | 1.4.5 |
 | lxml | https://pypi.org/project/lxml | BSD License (BSD-3-Clause) | 5.2.2 |
-| matplotlib | https://pypi.org/project/matplotlib | Python Software Foundation License | 3.9.0 |
+| matplotlib | https://pypi.org/project/matplotlib | Python Software Foundation License | 3.9.1 |
 | networkx | https://pypi.org/project/networkx | BSD License | 3.3 |
 | numpy | https://pypi.org/project/numpy | BSD License | 2.0.0 |
 | packaging | https://pypi.org/project/packaging | Apache Software License, BSD License | 24.1 |

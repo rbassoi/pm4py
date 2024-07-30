@@ -327,6 +327,20 @@ if "LlmTest" in enabled_tests:
 if failed > 0:
     print("-- PRESS ENTER TO CONTINUE --")
     input()
+    try:
+        from tests.ocel_discovery_test import OcelDiscoveryTest
+        suite.addTests(loader.loadTestsFromTestCase(OcelDiscoveryTest))
+    except:
+        print("OcelDiscoveryTest import failed!")
+        failed += 1
+
+if "LlmTest" in enabled_tests:
+    try:
+        from tests.llm_test import LlmTest
+        suite.addTests(loader.loadTestsFromTestCase(LlmTest))
+    except:
+        print("LlmTest import failed!")
+        failed += 1
 
 if "DcrImportExportTest" in enabled_tests:
     from tests.dcr_test import TestImportExportDCR
@@ -352,6 +366,10 @@ if "DcrAlignmentTest" in enabled_tests:
     from tests.dcr_test import TestAlignment
     suite.addTests(loader.loadTestsFromTestCase(TestAlignment))
 
+
+if failed > 0:
+    print("-- PRESS ENTER TO CONTINUE --")
+    input()
 
 def main():
     if EXECUTE_TESTS:

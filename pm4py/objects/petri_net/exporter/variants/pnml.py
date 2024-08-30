@@ -181,6 +181,7 @@ def export_petri_tree(petrinet, marking, final_marking=None, export_prom5=False,
             element_text = etree.SubElement(element, "text")
             element_text.text = petri_properties.RESET_ARC
         elif isinstance(arc, InhibitorNet.InhibitorArc):
+            arc_el.set("type", "inhibitor")
             element = etree.SubElement(arc_el, petri_properties.ARCTYPE)
             element_text = etree.SubElement(element, "text")
             element_text.text = petri_properties.INHIBITOR_ARC

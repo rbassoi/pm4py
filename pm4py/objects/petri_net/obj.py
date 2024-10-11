@@ -17,6 +17,7 @@
 from collections import Counter, deque
 from copy import deepcopy
 from typing import Any, Collection, Dict, Set
+from functools import total_ordering
 
 
 class Marking(Counter):
@@ -80,7 +81,7 @@ class PetriNet(object):
     class Place(object):
 
         def __init__(self, name, in_arcs=None, out_arcs=None, properties=None, inverse_map=None,
-                     preset=None, postset=None, label=None):
+                     preset=None, postset=None, label=None, mapped_place=None):
             self.__name = name
             self.__in_arcs = set() if in_arcs is None else in_arcs
             self.__out_arcs = set() if out_arcs is None else out_arcs
@@ -89,6 +90,7 @@ class PetriNet(object):
             self.__preset: Set[PetriNet.Transition] = set() if preset is None else preset
             self.__postset: Set[PetriNet.Transition] = set() if postset is None else postset
             self.__label = label if label else None
+            self.__mapped_place = mapped_place if mapped_place else None
 
         def __set_name(self, name):
             self.__name = name
@@ -107,6 +109,9 @@ class PetriNet(object):
 
         def __get_inverse_map(self):
             return self.__inverse_map
+
+        def __get_mapped_place(self):
+            return self.__mapped_place
 
         def __get_preset(self):
             return self.__preset
@@ -135,7 +140,8 @@ class PetriNet(object):
             if id(self) in memodict:
                 return memodict[id(self)]
             new_place = PetriNet.Place(self.name, properties=self.properties,
-                                       inverse_map=self.inverse_map, label=self.label)
+                                       inverse_map=self.inverse_map, label=self.label,
+                                       mapped_place=self.mapped_place)
             memodict[id(self)] = new_place
             for arc in self.in_arcs:
                 new_arc = deepcopy(arc, memo=memodict)
@@ -157,10 +163,12 @@ class PetriNet(object):
         out_arcs = property(__get_out_arcs)
         properties = property(__get_properties)
         inverse_map = property(__get_inverse_map)
+        mapped_place = property(__get_mapped_place)
         preset = property(__get_preset)
         postset = property(__get_postset)
         label = property(__get_label)
 
+    @total_ordering
     class Transition(object):
 
         def __init__(self, name, label=None, in_arcs=None, out_arcs=None, properties=None, preset=None, postset=None):
@@ -211,6 +219,10 @@ class PetriNet(object):
         def __eq__(self, other):
             # keep the ID for now in transitions
             return id(self) == id(other)
+
+        def __lt__(self, other):
+            # keep the ID for now in transitions
+            return id(self) < id(other)
 
         def __hash__(self):
             # keep the ID for now in transitions

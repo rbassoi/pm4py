@@ -39,12 +39,14 @@ def construct(pn1, im1, fm1, pn2, im2, fm2, skip):
     sync_net = PetriNet('synchronous_product_net of %s and %s' % (pn1.name, pn2.name))
     t1_map, p1_map = __copy_into(pn1, sync_net, True, skip)
     t2_map, p2_map = __copy_into(pn2, sync_net, False, skip)
+    sync_trans = set()
 
     for t1 in pn1.transitions:
         for t2 in pn2.transitions:
             if t1.label == t2.label:
                 sync = PetriNet.Transition((t1.name, t2.name), (t1.label, t2.label))
                 sync_net.transitions.add(sync)
+                sync_trans.add(t1)
                 # copy the properties of the transitions inside the transition of the sync net
                 for p1 in t1.properties:
                     sync.properties[p1] = t1.properties[p1]
@@ -73,7 +75,7 @@ def construct(pn1, im1, fm1, pn2, im2, fm2, skip):
     # update 06/02/2021: to distinguish the sync nets that are output of this method, put a property in the sync net
     sync_net.properties[properties.IS_SYNC_NET] = True
 
-    return sync_net, sync_im, sync_fm
+    return sync_net, sync_im, sync_fm, sync_trans
 
 
 def construct_cost_aware(pn1, im1, fm1, pn2, im2, fm2, skip, pn1_costs, pn2_costs, sync_costs):
@@ -158,7 +160,9 @@ def __copy_into(source_net, target_net, upper, skip):
 
     for p in source_net.places:
         name = (p.name, skip) if upper else (skip, p.name)
-        p_map[p] = PetriNet.Place(name)
+
+        p_map[p] = PetriNet.Place(name,mapped_place=p)
+
         if properties.TRACE_NET_PLACE_INDEX in p.properties:
             # 16/02/2021: copy the index property from the place of the trace net
             p_map[p].properties[properties.TRACE_NET_PLACE_INDEX] = p.properties[properties.TRACE_NET_PLACE_INDEX]

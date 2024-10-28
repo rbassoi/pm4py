@@ -26,7 +26,7 @@ setup(
     include_package_data=True,
     packages=[x for x in find_packages() if x.startswith("pm4py")],
     url='https://pm4py.fit.fraunhofer.de',
-    license='GPL 3.0',
+    license='Affero GPL 3.0',
     install_requires=read_file("requirements.txt").split("\n"),
     project_urls={
         'Documentation': 'https://pm4py.fit.fraunhofer.de',

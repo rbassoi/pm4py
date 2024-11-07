@@ -171,10 +171,7 @@ class ProcessTreeAligner:
         self._build_process_tree_subgraph(tree.children[1], end_node, start_node, iac)
 
     def align(self, trace: List[str]) -> Tuple[float, List[Tuple[str, str]]]:
-        if "cvxopt" in solver.DEFAULT_LP_SOLVER_VARIANT:
-            align_variant = "cvxopt_solver_custom_align_ilp"
-        else:
-            align_variant = "pulp"
+        align_variant = "pulp"
 
         num_steps = len(trace) + 1
         graph = self.graph

@@ -1,10 +1,9 @@
 import sys
-import tempfile
 from enum import Enum
 
+import numpy as np
 import pulp
 from pulp import LpProblem, LpMinimize, LpVariable, LpStatus, value, lpSum
-from pm4py.util import exec_utils
 
 
 class Parameters(Enum):
@@ -16,14 +15,14 @@ class Parameters(Enum):
 MIN_THRESHOLD = 1e-12
 MAX_NUM_CONSTRAINTS = 7  # Maximum safe number of constraints (log10)
 
-
 # Solver function to maintain compatibility with different versions of PuLP
 if hasattr(pulp, "__version__"):
     # New interface
     from pulp import PULP_CBC_CMD
 
+
     def solver(prob):
-        return PULP_CBC_CMD(msg=0).solve(prob)
+        return prob.solve(PULP_CBC_CMD(msg=0))
 else:
     # Old interface
     def solver(prob):
@@ -31,49 +30,26 @@ else:
 
 
 def get_variable_name(index):
-    """
-    Generates a variable name with leading zeros to ensure consistent length.
-
-    Parameters
-    ----------
-    index : int
-        The index of the variable.
-
-    Returns
-    -------
-    str
-        A string representing the variable name with leading zeros.
-    """
+    """Generates a variable name with leading zeros to ensure consistent length."""
     return str(index).zfill(MAX_NUM_CONSTRAINTS)
 
 
 def apply(c, Aub, bub, Aeq=None, beq=None, parameters=None):
     """
-    Solves a linear programming problem using PuLP.
-
-    Parameters
-    ----------
-    c : array_like
-        Coefficients for the objective function.
-    Aub : array_like
-        Coefficient matrix for inequality (less than or equal to) constraints.
-    bub : array_like
-        Right-hand side vector for inequality constraints.
-    Aeq : array_like, optional
-        Coefficient matrix for equality constraints.
-    beq : array_like, optional
-        Right-hand side vector for equality constraints.
-    parameters : dict, optional
-        Additional parameters for the solver. Can include:
-        - 'require_ilp': bool indicating if all variables should be integer.
-        - 'integrality': list of ints (0 or 1) indicating variable integrality.
-        - 'bounds': list of tuples specifying (lowBound, upBound) for variables.
-
-    Returns
-    -------
-    pulp.LpProblem
-        The solved linear programming problem.
+    Solves a linear programming problem using PuLP with all inputs as Python lists or lists of lists.
     """
+    if type(Aub) is np.matrix:
+        Aub = Aub.tolist()
+
+    if type(bub) is np.matrix:
+        bub = bub.tolist()
+
+    if type(Aeq) is np.matrix:
+        Aeq = Aeq.tolist()
+
+    if type(beq) is np.matrix:
+        beq = beq.tolist()
+
     if parameters is None:
         parameters = {}
 
@@ -86,7 +62,7 @@ def apply(c, Aub, bub, Aeq=None, beq=None, parameters=None):
     prob = LpProblem("LP_Problem", LpMinimize)
 
     # Define decision variables
-    num_vars = Aub.shape[1]
+    num_vars = len(c)
 
     # Validate integrality and bounds lists
     if integrality is not None and len(integrality) != num_vars:
@@ -123,29 +99,26 @@ def apply(c, Aub, bub, Aeq=None, beq=None, parameters=None):
 
     # Build the objective function
     objective_expr = lpSum(
-        c[j] * x_vars[j] for j in range(len(c)) if abs(c[j]) >= MIN_THRESHOLD
+        c[j] * x_vars[j] for j in range(num_vars) if abs(c[j]) >= MIN_THRESHOLD
     )
     prob += objective_expr, "Objective"
 
     # Add inequality constraints
-    for i in range(Aub.shape[0]):
+    for i in range(len(Aub)):
         constraint_expr = lpSum(
-            Aub[i, j] * x_vars[j] for j in range(num_vars) if abs(Aub[i, j]) >= MIN_THRESHOLD
+            Aub[i][j] * x_vars[j] for j in range(num_vars) if abs(Aub[i][j]) >= MIN_THRESHOLD
         )
-        prob += (constraint_expr <= bub[i]), f"Inequality_Constraint_{get_variable_name(i)}"
+        constraint_name = f"Inequality_Constraint_{get_variable_name(i)}"
+        prob += constraint_expr <= bub[i], constraint_name
 
     # Add equality constraints, if any
     if Aeq is not None and beq is not None:
-        for i in range(Aeq.shape[0]):
+        for i in range(len(Aeq)):
             constraint_expr = lpSum(
-                Aeq[i, j] * x_vars[j] for j in range(num_vars) if abs(Aeq[i, j]) >= MIN_THRESHOLD
+                Aeq[i][j] * x_vars[j] for j in range(num_vars) if abs(Aeq[i][j]) >= MIN_THRESHOLD
             )
-            constraint_name = f"Equality_Constraint_{get_variable_name(i)}"
-            prob += (constraint_expr == beq[i]), constraint_name
-
-    # Optionally write the LP problem to a temporary file (can be omitted)
-    with tempfile.NamedTemporaryFile(suffix='.lp', delete=False) as tmp_file:
-        prob.writeLP(tmp_file.name)
+            constraint_name = f"Equality_Constraint_{get_variable_name(i + len(Aub))}"
+            prob += constraint_expr == beq[i], constraint_name
 
     # Solve the problem
     solver(prob)
@@ -156,18 +129,6 @@ def apply(c, Aub, bub, Aeq=None, beq=None, parameters=None):
 def get_prim_obj_from_sol(sol, parameters=None):
     """
     Retrieves the objective value from the solved LP problem.
-
-    Parameters
-    ----------
-    sol : pulp.LpProblem
-        The solved LP problem.
-    parameters : dict, optional
-        Additional parameters (not used in this function).
-
-    Returns
-    -------
-    float
-        The value of the objective function.
     """
     return value(sol.objective)
 
@@ -175,21 +136,6 @@ def get_prim_obj_from_sol(sol, parameters=None):
 def get_points_from_sol(sol, parameters=None):
     """
     Retrieves the values of the decision variables from the solved LP problem.
-
-    Parameters
-    ----------
-    sol : pulp.LpProblem
-        The solved LP problem.
-    parameters : dict, optional
-        Additional parameters that may include:
-        - 'maximize': bool indicating if the problem is maximization.
-        - 'return_when_none': bool indicating if default values should be returned when no solution is found.
-        - 'var_corr': dict containing variable correlations (used to determine the length of the output list).
-
-    Returns
-    -------
-    list or None
-        A list of variable values if the solution is optimal, otherwise None or default values.
     """
     if parameters is None:
         parameters = {}

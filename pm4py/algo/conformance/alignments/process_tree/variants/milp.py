@@ -544,6 +544,8 @@ def apply(log: Union[pd.DataFrame, EventLog], process_tree: ProcessTree, paramet
     ---------------
     log
         Event log or Pandas dataframe
+    process_tree
+        Process tree
     parameters
         Parameters of the algorithm, including:
         - Parameters.ACTIVITY_KEY => the attribute to be used as activity

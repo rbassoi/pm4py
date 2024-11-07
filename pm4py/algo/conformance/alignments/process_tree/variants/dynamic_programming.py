@@ -22,6 +22,11 @@ def align_trace_with_process_tree(trace, tree):
     """
     Aligns a trace with a process tree using dynamic programming.
     Returns both the cost and the actual alignment.
+
+    Based on:
+    A Dynamic Programming Approach for Alignments on Process Trees
+    http://processquerying.com/wp-content/uploads/2024/09/PQMI_2024_279_A_Dynamic_Programming_Approach_for_Alignments_on_Process_Trees.pdf
+    
     """
     # Memoization tables to store costs and alignments
     CostTable = {}

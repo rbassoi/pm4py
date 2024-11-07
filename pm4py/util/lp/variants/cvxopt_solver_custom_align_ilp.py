@@ -15,9 +15,16 @@
     along with PM4Py.  If not, see <https://www.gnu.org/licenses/>.
 '''
 import sys
+from enum import Enum
+from pm4py.util import exec_utils
 
 from cvxopt import blas
 from cvxopt import glpk
+
+
+class Parameters(Enum):
+    INTEGRALITY = "integrality"
+
 
 this_options = {}
 this_options["LPX_K_MSGLEV"] = 0
@@ -83,8 +90,13 @@ def apply(c, Aub, bub, Aeq, beq, parameters=None):
     if parameters is None:
         parameters = {}
 
-    size = Aub.size[1]
-    I = {i for i in range(size)}
+    integrality = exec_utils.get_param_value(Parameters.INTEGRALITY, parameters, None)
+
+    if integrality is None:
+        size = Aub.size[1]
+        I = {i for i in range(size)}
+    else:
+        I = {i for i in range(len(integrality)) if integrality[i] == 1}
 
     sol = custom_solve_ilp(c, Aub, bub, Aeq, beq, I)
 

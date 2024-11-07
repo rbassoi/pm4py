@@ -17,6 +17,7 @@
 from pm4py.algo.conformance.alignments.process_tree.variants.approximated import matrix_lp as approximated_matrix_lp
 from pm4py.algo.conformance.alignments.process_tree.variants.approximated import original as approximated_original
 from pm4py.algo.conformance.alignments.process_tree.variants import search_graph_pt
+from pm4py.algo.conformance.alignments.process_tree.variants import milp
 
 from pm4py.util import exec_utils
 from enum import Enum
@@ -32,6 +33,7 @@ class Variants(Enum):
     APPROXIMATED_ORIGINAL = approximated_original
     APPROXIMATED_MATRIX_LP = approximated_matrix_lp
     SEARCH_GRAPH_PT = search_graph_pt
+    MILP = milp
 
 
 DEFAULT_VARIANT = Variants.SEARCH_GRAPH_PT

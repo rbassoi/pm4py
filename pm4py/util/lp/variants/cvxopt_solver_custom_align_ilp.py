@@ -41,12 +41,10 @@ def check_lp_sol_is_integer(x):
     return True
 
 
-def custom_solve_ilp(c, G, h, A, b):
+def custom_solve_ilp(c, G, h, A, b, I):
     status, x, y, z = glpk.lp(c, G, h, A, b, options=this_options_lp)
     if status == "optimal":
         if not check_lp_sol_is_integer(x):
-            size = G.size[1]
-            I = {i for i in range(size)}
             status, x = glpk.ilp(c, G, h, A, b, I=I, options=this_options)
         if status == 'optimal':
             pcost = blas.dot(c, x)
@@ -82,7 +80,13 @@ def apply(c, Aub, bub, Aeq, beq, parameters=None):
     sol
         Solution of the LP problem by the given algorithm
     """
-    sol = custom_solve_ilp(c, Aub, bub, Aeq, beq)
+    if parameters is None:
+        parameters = {}
+
+    size = Aub.size[1]
+    I = {i for i in range(size)}
+
+    sol = custom_solve_ilp(c, Aub, bub, Aeq, beq, I)
 
     return sol
 

@@ -15,6 +15,7 @@
     along with PM4Py.  If not, see <https://www.gnu.org/licenses/>.
 '''
 from pm4py.algo.conformance.alignments.process_tree.variants.approximated import matrix_lp as approximated_matrix_lp
+from pm4py.algo.conformance.alignments.process_tree.variants import dynamic_programming
 from pm4py.algo.conformance.alignments.process_tree.variants.approximated import original as approximated_original
 from pm4py.algo.conformance.alignments.process_tree.variants import search_graph_pt
 
@@ -29,6 +30,7 @@ import pandas as pd
 
 
 class Variants(Enum):
+    DYNAMIC_PROGRAMMING = dynamic_programming
     APPROXIMATED_ORIGINAL = approximated_original
     APPROXIMATED_MATRIX_LP = approximated_matrix_lp
     SEARCH_GRAPH_PT = search_graph_pt

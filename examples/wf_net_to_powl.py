@@ -50,27 +50,31 @@ def execute_script():
 
     # The resulting POWL model (main_PO) represents a complex process with nested partial orders
 
-    #pm4py.view_powl(root, format="svg")
+    pm4py.view_powl(main_PO, format="svg")
     print(main_PO)
     net, im, fm = pm4py.convert_to_petri_net(main_PO)
     #pm4py.view_petri_net(net, im, fm, format="svg")
 
     log = pm4py.play_out(net, im, fm)
 
-    fitness = pm4py.fitness_alignments(log, net, im, fm)
-    print(fitness)
-    precision = pm4py.precision_alignments(log, net, im, fm)
-    print(precision)
+    if True:
+        fitness = pm4py.fitness_alignments(log, net, im, fm)
+        print(fitness)
+        precision = pm4py.precision_alignments(log, net, im, fm)
+        print(precision)
 
     powl = to_powl.apply(net, im, fm)
+    pm4py.view_powl(powl, format="svg")
+
     print(powl)
     net2, im2, fm2 = pm4py.convert_to_petri_net(powl)
-    #pm4py.view_petri_net(net, im, fm, format="svg")
+    pm4py.view_petri_net(net2, im2, fm2, format="svg")
 
-    fitness = pm4py.fitness_alignments(log, net2, im2, fm2)
-    print(fitness)
-    precision = pm4py.precision_alignments(log, net2, im2, fm2)
-    print(precision)
+    if True:
+        fitness = pm4py.fitness_alignments(log, net2, im2, fm2)
+        print(fitness)
+        precision = pm4py.precision_alignments(log, net2, im2, fm2)
+        print(precision)
 
 
 if __name__ == "__main__":

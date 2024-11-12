@@ -215,8 +215,15 @@ def binary_sequence_detection(net, t2powl_node):
             break
     if c1 is not None and c2 is not None:
         # Create a StrictPartialOrder POWL node with c1 and c2, and add an order from c1 to c2
-        new_powl_node = StrictPartialOrder(nodes=[t2powl_node[c1], t2powl_node[c2]])
-        new_powl_node.order.add_edge(t2powl_node[c1], t2powl_node[c2])
+        n1 = t2powl_node[c1]
+        n2 = t2powl_node[c2]
+        if isinstance(n2, SilentTransition):
+            new_powl_node = n1
+        elif isinstance(n1, SilentTransition):
+            new_powl_node = n2
+        else:
+            new_powl_node = StrictPartialOrder(nodes=[n1, n2])
+            new_powl_node.order.add_edge(n1, n2)
         t_new = PetriNet.Transition(TRANSITION_PREFIX + str(datetime.datetime.now()))
         t_new.label = None
         # Map t_new to the new POWL node
@@ -336,6 +343,7 @@ def group_blocks_in_net(net, t2powl_node, parameters=None):
 def extract_partial_order_from_net(net, t2powl_node):
     '''
     Extracts the partial order from the Petri net structure for the remaining transitions.
+    Removes silent transitions by linking their predecessors to their successors until no silent transitions remain.
     Returns a StrictPartialOrder POWL model with nodes and order.
 
     Parameters:
@@ -372,19 +380,43 @@ def extract_partial_order_from_net(net, t2powl_node):
         # For each pair of transitions (t1, t2) such that t1 in pre-set(p) and t2 in post-set(p)
         for t1 in pre_transitions:
             for t2 in post_transitions:
-                if t1 != t2:
-                    # Add an order relation from t1 to t2
-                    source = t2powl_node[t1]
-                    target = t2powl_node[t2]
-                    order_relations.add((source, target))
+                # Add an order relation from t1 to t2
+                source = t2powl_node[t1]
+                target = t2powl_node[t2]
+                order_relations.add((source, target))
 
-    # Now, check for cycles in the relations to ensure it's a partial order
-    # Build a directed graph to detect cycles
+    # Now, build the directed graph
     import networkx as nx
     G = nx.DiGraph()
     G.add_nodes_from(nodes)
     G.add_edges_from(order_relations)
 
+    # Remove silent transitions and connect their predecessors to their successors
+    silent_transitions_exist = True
+    while silent_transitions_exist:
+        silent_transitions_exist = False
+        # Find all SilentTransition nodes
+        silent_nodes = [n for n in G.nodes if isinstance(n, SilentTransition)]
+        if silent_nodes:
+            silent_transitions_exist = True
+            for n in silent_nodes:
+                # Get predecessors and successors of the silent node
+                preds = list(G.predecessors(n))
+                succs = list(G.successors(n))
+                # For each predecessor and successor, add an edge from pred to succ
+                for p in preds:
+                    for s in succs:
+                        if p != s:
+                            G.add_edge(p, s)
+                # Remove the silent node from the graph
+                G.remove_node(n)
+        else:
+            silent_transitions_exist = False
+
+    # After removing silent transitions, update the nodes set
+    nodes = set(G.nodes())
+
+    # Now, check for cycles in the relations to ensure it's a partial order
     if not nx.is_directed_acyclic_graph(G):
         # If there are cycles, we need to remove edges to break cycles
         # For simplicity, we can remove one edge from each cycle

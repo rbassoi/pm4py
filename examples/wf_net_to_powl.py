@@ -57,13 +57,20 @@ def execute_script():
 
     log = pm4py.play_out(net, im, fm)
 
-    powl = to_powl.apply(net, im, fm)
-    print(powl)
-    net, im, fm = pm4py.convert_to_petri_net(powl)
-    #pm4py.view_petri_net(net, im, fm, format="svg")
-
     fitness = pm4py.fitness_alignments(log, net, im, fm)
     print(fitness)
+    precision = pm4py.precision_alignments(log, net, im, fm)
+    print(precision)
+
+    powl = to_powl.apply(net, im, fm)
+    print(powl)
+    net2, im2, fm2 = pm4py.convert_to_petri_net(powl)
+    #pm4py.view_petri_net(net, im, fm, format="svg")
+
+    fitness = pm4py.fitness_alignments(log, net2, im2, fm2)
+    print(fitness)
+    precision = pm4py.precision_alignments(log, net2, im2, fm2)
+    print(precision)
 
 
 if __name__ == "__main__":

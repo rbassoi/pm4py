@@ -430,12 +430,12 @@ The list of parameters are:
 
 Inspect parameters
 
-|PRINT_DIAGNOSTICS|Enables the printing of the diagnostics on the Petri net, when WOFLAN is
-executed.|
+
+
+|PRINT_DIAGNOSTICS|Enables the printing of the diagnostics on the Petri net, when WOFLAN is executed.|
 |---|---|
 |RETURN_DIAGNOSTICS|Returns a dictionary containing the diagnostics.|
-|RETURN_ASAP_WHEN_NOT_SOUND|Stops the execution of WOFLAN when a condition determining that the Petri net
-is not a sound workflow net is found.|
+|RETURN_ASAP_WHEN_NOT_SOUND|Stops the execution of WOFLAN when a condition determining that the Petri net is not a sound workflow net is found.|
 
 
 
@@ -502,6 +502,8 @@ The dictionary dictio_diagnostics may contain the following keys (if the computa
 the corresponding step):
 
 Inspect outputs
+
+
 
 |S_C_NET||
 |---|---|

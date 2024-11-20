@@ -14,18 +14,19 @@ been provided by the user.
 A playout of a Petri net takes as input a Petri net along with an initial marking,
 and returns a list of process executions that are allowed from the process model.
 We offer different types of playouts:
-|Variants.BASIC_PLAYOUT|A basic playout that accepts a Petri net along with an initial marking, and returns a
-specified number of process executions (repetitions may be possible).|
+
+
+|Variants.BASIC_PLAYOUT|A basic playout that accepts a Petri net along with an initial marking, and returns a specified number of process executions (repetitions may be possible).|
 |---|---|
-|Variants.EXTENSIVE|A playout that accepts a Petri net along with an initial marking, and returns all the
-executions that are possible according to the model, up to a provided
-length of trace (may be computationally expensive).|
+|Variants.EXTENSIVE|A playout that accepts a Petri net along with an initial marking, and returns all the executions that are possible according to the model, up to a provided length of trace (may be computationally expensive).|
 
 
 
 The list of parameters for such variants are:
 
 Inspect parameters
+
+
 
 |Variants.BASIC_PLAYOUT|Parameters.ACTIVITY_KEY|The name of the attribute to use as activity in the playout log.|
 |---|---|---|
@@ -145,6 +146,8 @@ if __name__ == "__main__":
 
 During the replay operation, some debug messages are written to the screen. The main outputs of
 the simulation process are:
+
+
 |simulated_log|The traces that have been simulated during the simulation.|
 |---|---|
 |res|The result of the simulation (Python dictionary).|
@@ -157,18 +160,15 @@ res
 
 Inspect outputs
 
-|places_interval_trees|an interval tree for each place, that hosts an interval for each time when it was
-“full” according to the specified maximum amount of tokens per place.|
+
+
+|places_interval_trees|an interval tree for each place, that hosts an interval for each time when it was “full” according to the specified maximum amount of tokens per place.|
 |---|---|
-|transitions_interval_trees|an interval tree for each transition, that contains all the time intervals in which
-the transition was enabled but not yet fired (so, the time between a transition was
-fully enabled and the consumption of the tokens from the input places)|
+|transitions_interval_trees|an interval tree for each transition, that contains all the time intervals in which the transition was enabled but not yet fired (so, the time between a transition was fully enabled and the consumption of the tokens from the input places)|
 |cases_ex_time|a list containing the throughput times for all the cases of the log|
 |median_cases_ex_time|the median throughput time of the cases in the simulated log|
-|input_case_arrival_ratio|the case arrival ratio that was provided by the user, or automatically calculated
-from the event log.|
-|total_cases_time|the difference between the last timestamp of the log, and the first timestamp of the
-simulated log.|
+|input_case_arrival_ratio|the case arrival ratio that was provided by the user, or automatically calculated from the event log.|
+|total_cases_time|the difference between the last timestamp of the log, and the first timestamp of the simulated log.|
 
 
 
@@ -253,32 +253,21 @@ petri_semaph_fifo
 
 Inspect parameters
 
-|Variants.PETRI_SEMAPH_FIFO|Parameters.PARAM_NUM_SIMULATIONS|Number of simulations that are performed (the goal is to have such number of traces
-in the model)|
+
+
+|Variants.PETRI_SEMAPH_FIFO|Parameters.PARAM_NUM_SIMULATIONS|Number of simulations that are performed (the goal is to have such number of traces in the model)|
 |---|---|---|
 ||Parameters.PARAM_CASE_ARRIVAL_RATIO|The case arrival ratio that is specified by the user.|
 ||Parameters.PARAM_MAP_RESOURCES_PER_PLACE|A map containing for each place of the Petri net the maximum amount of tokens|
-||Parameters.PARAM_DEFAULT_NUM_RESOURCES_PER_PLACE|If the map of resources per place is not specified, then use the specified maximum
-number of resources per place.|
+||Parameters.PARAM_DEFAULT_NUM_RESOURCES_PER_PLACE|If the map of resources per place is not specified, then use the specified maximum number of resources per place.|
 ||Parameters.PARAM_MAX_THREAD_EXECUTION_TIME|Specifies the maximum execution time of the simulation (for example, 60 seconds).|
-||Parameters.PARAM_SMALL_SCALE_FACTOR|Specifies the ratio between the “real” time scale and the simulation time scale. A
-higher ratio means that the simulation goes faster but is in general less accurate.
-A lower ratio means that the simulation goes slower and is in general more accurate
-(in providing detailed diagnostics). The default choice is 864000 seconds (10 days).
-So that means that a second in the simulation is corresponding to 10 days of real
-log.|
-||Parameters.PARAM_ENABLE_DIAGNOSTICS|Enables the printing of the simulation diagnostics through the usage of the
-“logging” class of Python|
+||Parameters.PARAM_SMALL_SCALE_FACTOR|Specifies the ratio between the “real” time scale and the simulation time scale. A higher ratio means that the simulation goes faster but is in general less accurate. A lower ratio means that the simulation goes slower and is in general more accurate (in providing detailed diagnostics). The default choice is 864000 seconds (10 days). So that means that a second in the simulation is corresponding to 10 days of real log.|
+||Parameters.PARAM_ENABLE_DIAGNOSTICS|Enables the printing of the simulation diagnostics through the usage of the “logging” class of Python|
 ||Parameters.ACTIVITY_KEY|The attribute of the log that should be used as activity|
 ||Parameters.TIMESTAMP_KEY|The attribute of the log that should be used as timestamp|
-||Parameters.TOKEN_REPLAY_VARIANT|The variant of the token-based replay to use: token_replay,
-the classic variant, that cannot handle duplicate transitions;
-backwards, the backwards token-based replay, that is slower but can handle
-invisible transitions.|
-||Parameters.PARAM_FORCE_DISTRIBUTION|If specified, the distribution that is forced for the transitions (normal,
-exponential)|
-||Parameters.PARAM_DIAGN_INTERVAL|The time interval in which diagnostics should be printed (for example, diagnostics
-should be printed every 10 seconds).|
+||Parameters.TOKEN_REPLAY_VARIANT|The variant of the token-based replay to use: token_replay, the classic variant, that cannot handle duplicate transitions; backwards, the backwards token-based replay, that is slower but can handle invisible transitions.|
+||Parameters.PARAM_FORCE_DISTRIBUTION|If specified, the distribution that is forced for the transitions (normal, exponential)|
+||Parameters.PARAM_DIAGN_INTERVAL|The time interval in which diagnostics should be printed (for example, diagnostics should be printed every 10 seconds).|
 
 
 
@@ -319,6 +308,8 @@ minimum length of a trace accepted by a process tree.,
 The list of parameters are:
 
 Inspect parameters
+
+
 
 |MAX_LIMIT_NUM_TRACES|Maximum number of traces that are returned by the algorithm.|
 |---|---|

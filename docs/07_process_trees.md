@@ -56,6 +56,8 @@ if __name__ == "__main__":
 
 Suppose the following start activity and their respective occurrences.
 
+
+
 |Parameter|Meaning|
 |---|---|
 |MODE|most frequent number of visible activities (default 20)|
@@ -66,19 +68,13 @@ Suppose the following start activity and their respective occurrences.
 |PARALLEL|probability to add a parallel operator to tree (default 0.25)|
 |LOOP|probability to add a loop operator to tree (default 0.25)|
 |OR|probability to add an or operator to tree (default 0)|
-|SILENT|probability to add silent activity to a choice or loop operator
-(default 0.25)|
+|SILENT|probability to add silent activity to a choice or loop operator (default 0.25)|
 |DUPLICATE|probability to duplicate an activity label (default 0)|
 |LT_DEPENDENCY|probability to add a random dependency to the tree (default 0)|
 |INFREQUENT|probability to make a choice have infrequent paths (default 0.25)|
 |NO_MODELS|number of trees to generate from model population (default 10)|
-|UNFOLD|whether or not to unfold loops in order to include choices
-underneath in dependencies: 0=False, 1=True
-if lt_dependency <= 0: this should always be 0 (False)
-if lt_dependency > 0: this can be 1 or 0 (True or False) (default
-10)|
-|MAX_REPEAT|maximum number of repetitions of a loop (only used when unfolding is
-True) (default 10)|
+|UNFOLD|whether or not to unfold loops in order to include choices underneath in dependencies: 0=False, 1=True if lt_dependency <= 0: this should always be 0 (False) if lt_dependency > 0: this can be 1 or 0 (True or False) (default 10)|
+|MAX_REPEAT|maximum number of repetitions of a loop (only used when unfolding is True) (default 10)|
 
 
 

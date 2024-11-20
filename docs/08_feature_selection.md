@@ -114,18 +114,14 @@ log_to_features.apply
 .
 The types of features that can be considered by a manual feature selection are:
 
-|str_ev_attr|String attributes at the event level: these are hot-encoded into features that may
-assume value 0 or value 1.|
+
+
+|str_ev_attr|String attributes at the event level: these are hot-encoded into features that may assume value 0 or value 1.|
 |---|---|
-|str_tr_attr|String attributes at the trace level: these are hot-encoded into features that may
-assume value 0 or value 1.|
-|num_ev_attr|Numeric attributes at the event level: these are encoded by including the last value of
-the attribute among the events of the trace.|
+|str_tr_attr|String attributes at the trace level: these are hot-encoded into features that may assume value 0 or value 1.|
+|num_ev_attr|Numeric attributes at the event level: these are encoded by including the last value of the attribute among the events of the trace.|
 |num_tr_attr|Numeric attributes at trace level: these are encoded by including the numerical value.|
-|str_evsucc_attr|Successions related to the string attributes values at the event level: for example, if
-we have a trace [A,B,C], it might be important to include not only the presence of the
-single values A, B and C as features; but also the presence of the directly-follows
-couples (A,B) and (B,C).|
+|str_evsucc_attr|Successions related to the string attributes values at the event level: for example, if we have a trace [A,B,C], it might be important to include not only the presence of the single values A, B and C as features; but also the presence of the directly-follows couples (A,B) and (B,C).|
 
 
 

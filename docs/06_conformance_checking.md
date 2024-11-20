@@ -1035,6 +1035,8 @@ if __name__ == "__main__":
 Some parameters can be used in order to customize the conformance checking of the temporal profile:
 See Parameters
 
+
+
 |Parameter Key|Type|Default|Description|
 |---|---|---|---|
 |Parameters.ACTIVITY_KEY|string|concept:name|The attribute to use as activity.|
@@ -1064,22 +1066,12 @@ execution is repeated (that means rework) from different people.
 The verification of LTL rules requires the insertion of the required parameters
 (of the specific rule). Hence, this form of conformance checking is not automatic.
 The LTL rules that are implemented in pm4py are found in the following table:
+
+
 |LTL rule|Description|
 |---|---|
-|ltl.ltl_checker.four_eyes_principle(log, A, B)|Applies the four eyes principle on the activities A and B.
-Parameters:
-log: event log
-A: the activity A of the rule (an activity of the log)
-B: the activity B of the rule (an activity of the log)
-Returns:
-Filtered log object (containing the cases which have A and B done by the same person)|
-|ltl.ltl_checker.attr_value_different_persons(log, A)|Finds the process executions in which the activity A is repeated by
-different people.
-Parameters:
-log: event log
-A: the activity A of the rule (an activity of the log)
-Returns:
-Filtered log object (containing the cases which have A repeated by different people)|
+|ltl.ltl_checker.four_eyes_principle(log, A, B)|Applies the four eyes principle on the activities A and B. Parameters: log: event log A: the activity A of the rule (an activity of the log) B: the activity B of the rule (an activity of the log) Returns: Filtered log object (containing the cases which have A and B done by the same person)|
+|ltl.ltl_checker.attr_value_different_persons(log, A)|Finds the process executions in which the activity A is repeated by different people. Parameters: log: event log A: the activity A of the rule (an activity of the log) Returns: Filtered log object (containing the cases which have A repeated by different people)|
 
 
 

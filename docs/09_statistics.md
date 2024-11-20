@@ -124,8 +124,9 @@ In the following, we aim to insert the following attributes to events inside a l
 
 Attributes
 
-|@@approx_bh_partial_cycle_time|Incremental cycle time associated to the event (the cycle time of the last event is
-the cycle time of the instance)|
+
+
+|@@approx_bh_partial_cycle_time|Incremental cycle time associated to the event (the cycle time of the last event is the cycle time of the instance)|
 |---|---|
 |@@approx_bh_partial_lead_time|Incremental lead time associated to the event|
 |@@approx_bh_overall_wasted_time|Difference between the partial lead time and the partial cycle time values|

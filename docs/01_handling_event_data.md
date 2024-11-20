@@ -108,6 +108,8 @@ as a
 
 -file:
 
+
+
 |CaseID|Activity|Timestamp|clientID|
 |---|---|---|---|
 |1|register request|20200422T0455|1337|

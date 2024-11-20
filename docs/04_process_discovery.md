@@ -8,6 +8,8 @@ order of events/activities that are executed during a process execution.
 In the following, we made up an overview to visualize the advantages and disadvantages of
 the
 mining algorithms.
+
+
 |Alpha|Alpha+|Heuristic|Inductive|
 |---|---|---|---|
 |Cannot handle loops of length one and length two|Can handle loops of length one and length two|Takes frequency into account|Can handle invisible tasks|
@@ -163,6 +165,8 @@ if __name__ == "__main__":
 
 	heu_net = pm4py.discover_heuristics_net(log, dependency_threshold=0.99)
 ```
+
+
 
 
 |Parameter name|Meaning|
@@ -400,17 +404,12 @@ if __name__ == "__main__":
 Visualizing the DFGs, we can say that the correlation miner was able to discover a visualization
 where the main path is clear.
 Different variants of the correlation miner are available:
-|Variants.CLASSIC|Calculates the P/S matrix and the duration matrix in the classic way (the entire list of
-events is used)|
+
+
+|Variants.CLASSIC|Calculates the P/S matrix and the duration matrix in the classic way (the entire list of events is used)|
 |---|---|
-|Variants.TRACE_BASED|Calculates the P/S matrix and the duration matrix on a classic event log,
-trace-by-trace, and merges the results. The resolution of the linear problem permits to
-obtain a model that is more understandable than the classic DFG calculated on top of the
-log.|
-|Variants.CLASSIC_SPLIT|Calculates the P/S matrix and the duration matrix on the entire list of events, as in
-the classic version, but splits that in chunks to fasten the computation. Hence, the
-generated model is less accurate (in comparison to the CLASSIC version) but the
-calculation is faster. The default chunk size is 100000 events.|
+|Variants.TRACE_BASED|Calculates the P/S matrix and the duration matrix on a classic event log, trace-by-trace, and merges the results. The resolution of the linear problem permits to obtain a model that is more understandable than the classic DFG calculated on top of the log.|
+|Variants.CLASSIC_SPLIT|Calculates the P/S matrix and the duration matrix on the entire list of events, as in the classic version, but splits that in chunks to fasten the computation. Hence, the generated model is less accurate (in comparison to the CLASSIC version) but the calculation is faster. The default chunk size is 100000 events.|
 
 
 
@@ -442,6 +441,8 @@ if __name__ == "__main__":
 
 Some parameters can be used in order to customize the execution of the temporal profile:
 See Parameters
+
+
 
 |Parameter Key|Type|Default|Description|
 |---|---|---|---|

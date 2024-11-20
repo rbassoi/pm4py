@@ -1043,6 +1043,9 @@ See Parameters
 |Parameters.ZETA|int|6|Multiplier for the standard deviation. Couples of events that are more distant than this are signaled by the temporal profile.|
 
 
+
+
+
 ## LTL Checking
 
 
@@ -1077,6 +1080,9 @@ log: event log
 A: the activity A of the rule (an activity of the log)
 Returns:
 Filtered log object (containing the cases which have A repeated by different people)|
+
+
+
 The rules can be applied on both traditional event logs (XES) and Pandas dataframes,
 by looking at the packages 
 pm4py.algo.filtering.log.ltl

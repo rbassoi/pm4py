@@ -114,6 +114,9 @@ as a
 |2|register request|20200422T0457|1479|
 |1|submit payment|20200422T0503|1337|
 |||||
+
+
+
 In this small example table, we observe four columns, i.e., 
 `CaseID`
 ,

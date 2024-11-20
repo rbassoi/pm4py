@@ -131,6 +131,9 @@ the cycle time of the instance)|
 |@@approx_bh_overall_wasted_time|Difference between the partial lead time and the partial cycle time values|
 |@@approx_bh_this_wasted_time|Wasted time ONLY with regards to the activity described by the ‘interval’ event|
 |@@approx_bh_ratio_cycle_lead_time|Measures the incremental Flow Rate (between 0 and 1).|
+
+
+
 The method that calculates the lead and the cycle time could be applied with the following line of code:
 
 

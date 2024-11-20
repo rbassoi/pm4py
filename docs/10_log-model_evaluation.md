@@ -436,6 +436,9 @@ executed.|
 |RETURN_DIAGNOSTICS|Returns a dictionary containing the diagnostics.|
 |RETURN_ASAP_WHEN_NOT_SOUND|Stops the execution of WOFLAN when a condition determining that the Petri net
 is not a sound workflow net is found.|
+
+
+
 On the provided Petri net, that is not sound, the output of the technique is False.
 To know why such Petri net is not sound, we repeat the execution of the script setting
 PRINT_DIAGNOSTICS to True and RETURN_ASAP_WHEN_NOT_SOUND to False (to get more
@@ -517,3 +520,5 @@ Inspect outputs
 |R_G||
 |LOCKING_SCENARIOS||
 |RESTRICTED_COVERABILITY_TREE||
+
+

@@ -20,6 +20,9 @@ specified number of process executions (repetitions may be possible).|
 |Variants.EXTENSIVE|A playout that accepts a Petri net along with an initial marking, and returns all the
 executions that are possible according to the model, up to a provided
 length of trace (may be computationally expensive).|
+
+
+
 The list of parameters for such variants are:
 
 Inspect parameters
@@ -34,6 +37,9 @@ Inspect parameters
 ||Parameters.TIMESTAMP_KEY|The name of the attribute to use as timestamp in the playout log.|
 ||Parameters.CASE_ID_KEY|The trace attribute that should be used as case identifier in the playout log.|
 ||Parameters.MAX_TRACE_LENGTH|The maximum trace length (after which, the extensive playout is stopped).|
+
+
+
 An example application of the basic playout, given a Petri net, to get a log of 50 traces,
 is the following:
 
@@ -142,6 +148,9 @@ the simulation process are:
 |simulated_log|The traces that have been simulated during the simulation.|
 |---|---|
 |res|The result of the simulation (Python dictionary).|
+
+
+
 Among 
 res
 , that is the result of the simulation, we have the following keys:
@@ -160,6 +169,9 @@ fully enabled and the consumption of the tokens from the input places)|
 from the event log.|
 |total_cases_time|the difference between the last timestamp of the log, and the first timestamp of the
 simulated log.|
+
+
+
 The last four items of the previous list are simple Python objects (floats and lists in the
 specific). The interval trees objects can be used in the following way to get time-specific
 information. For example, the following code snippet
@@ -269,6 +281,9 @@ exponential)|
 should be printed every 10 seconds).|
 
 
+
+
+
 ## Extensive Playout of a Process Tree
 
 
@@ -309,6 +324,9 @@ Inspect parameters
 |---|---|
 |MAX_TRACE_LENGTH|Maximum length of a trace that is output of the algorithm.|
 |MAX_LOOP_OCC|Maximum number of times we enter in a loop.|
+
+
+
 In the following, we see how the playout can be executed. First, a log can be imported:
 
 

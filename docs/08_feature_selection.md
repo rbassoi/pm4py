@@ -126,6 +126,9 @@ the attribute among the events of the trace.|
 we have a trace [A,B,C], it might be important to include not only the presence of the
 single values A, B and C as features; but also the presence of the directly-follows
 couples (A,B) and (B,C).|
+
+
+
 Let’s consider for example a feature selection where we are interested to:,
 
 - If a process execution contains, or not, an activity.,

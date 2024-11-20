@@ -479,6 +479,9 @@ if __name__ == "__main__":
 |Parameters.START_TIMESTAMP_KEY|string|start_timestamp|The attribute to use as start timestamp.|
 |Parameters.TIMESTAMP_KEY|string|time:timestamp|The attribute to use as timestamp.|
 |Parameters.ZETA|int|6|Multiplier for the standard deviation. Couples of events that are more distant than this are signaled by the temporal profile.|
+
+
+
 We send the events of the log against the stream:
 
 

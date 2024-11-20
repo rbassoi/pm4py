@@ -16,6 +16,9 @@ mining algorithms.
 |Weak against noise|Weak against noise|||
 
 
+
+
+
 ## Alpha Miner
 
 
@@ -167,6 +170,9 @@ if __name__ == "__main__":
 |dependency_threshold|dependency threshold of the Heuristics Miner (default: 0.5)|
 |and_threshold|AND measure threshold of the Heuristics Miner (default: 0.65)|
 |loop_two_threshold|thresholds for the loops of length 2 (default 0.5)|
+
+
+
 To visualize the Heuristic Net, code is also provided on the right-hand side.
 
 
@@ -407,6 +413,9 @@ generated model is less accurate (in comparison to the CLASSIC version) but the
 calculation is faster. The default chunk size is 100000 events.|
 
 
+
+
+
 ## Temporal Profile
 
 
@@ -439,3 +448,5 @@ See Parameters
 |Parameters.ACTIVITY_KEY|string|concept:name|The attribute to use as activity.|
 |Parameters.START_TIMESTAMP_KEY|string|start_timestamp|The attribute to use as start timestamp.|
 |Parameters.TIMESTAMP_KEY|string|time:timestamp|The attribute to use as timestamp.|
+
+

@@ -21,15 +21,17 @@ Contact: info@processintelligence.solutions
 '''
 from enum import Enum
 
-from pm4py.objects.petri_net.exporter.variants import pnml
+from pm4py.objects.petri_net.exporter.variants import pnml, tapn
 from pm4py.util import exec_utils
 
 
 class Variants(Enum):
     PNML = pnml
+    TAPN = tapn
 
 
 PNML = Variants.PNML
+TAPN = Variants.TAPN
 
 
 def apply(net, initial_marking, output_filename, final_marking=None, variant=PNML, parameters=None):

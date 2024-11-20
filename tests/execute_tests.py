@@ -27,7 +27,8 @@ enabled_tests = ["SimplifiedInterfaceTest", "SimplifiedInterface2Test", "DocTest
                  "DiagnDfConfChecking", "ProcessModelEvaluationTests", "DecisionTreeTest", "GraphsForming",
                  "HeuMinerTest", "MainFactoriesTest", "AlgorithmTest", "LogFilteringTest",
                  "DataframePrefilteringTest", "StatisticsLogTest", "StatisticsDfTest", "TransitionSystemTest",
-                 "ImpExpFromString", "WoflanTest", "OcelFilteringTest", "OcelDiscoveryTest", "LlmTest"]
+                 "ImpExpFromString", "WoflanTest", "OcelFilteringTest", "OcelDiscoveryTest", "LlmTest", "DcrImportExportTest",
+                 "DcrSemanticsTest", "DcrDiscoveryTest", "DcrConformanceTest", "DcrAlignmentTest"]
 
 loader = unittest.TestLoader()
 suite = unittest.TestSuite()
@@ -326,7 +327,49 @@ if "LlmTest" in enabled_tests:
 if failed > 0:
     print("-- PRESS ENTER TO CONTINUE --")
     input()
+    try:
+        from tests.ocel_discovery_test import OcelDiscoveryTest
+        suite.addTests(loader.loadTestsFromTestCase(OcelDiscoveryTest))
+    except:
+        print("OcelDiscoveryTest import failed!")
+        failed += 1
 
+if "LlmTest" in enabled_tests:
+    try:
+        from tests.llm_test import LlmTest
+        suite.addTests(loader.loadTestsFromTestCase(LlmTest))
+    except:
+        print("LlmTest import failed!")
+        failed += 1
+
+if "DcrImportExportTest" in enabled_tests:
+    from tests.dcr_test import TestImportExportDCR
+
+    suite.addTests(loader.loadTestsFromTestCase(TestImportExportDCR))
+
+if "DcrSemanticsTest" in enabled_tests:
+    from tests.dcr_test import TestObjSematics
+
+    suite.addTests(loader.loadTestsFromTestCase(TestObjSematics))
+
+if "DcrDiscoveryTest" in enabled_tests:
+    from tests.dcr_test import TestDiscoveryDCR
+
+    suite.addTests(loader.loadTestsFromTestCase(TestDiscoveryDCR))
+
+if "DcrConformanceTest" in enabled_tests:
+    from tests.dcr_test import TestConformanceDCR
+
+    suite.addTests(loader.loadTestsFromTestCase(TestConformanceDCR))
+
+if "DcrAlignmentTest" in enabled_tests:
+    from tests.dcr_test import TestAlignment
+    suite.addTests(loader.loadTestsFromTestCase(TestAlignment))
+
+
+if failed > 0:
+    print("-- PRESS ENTER TO CONTINUE --")
+    input()
 
 def main():
     if EXECUTE_TESTS:
@@ -358,4 +401,13 @@ def main():
 
 
 if __name__ == "__main__":
+    import warnings
+    from pandas.errors import SettingWithCopyWarning, PerformanceWarning
+    import pandas as pd
+    pd.set_option('future.no_silent_downcasting', True)
+    warnings.simplefilter(action="ignore", category=SettingWithCopyWarning)
+    warnings.simplefilter(action="ignore", category=PerformanceWarning)
+    warnings.filterwarnings(
+        action='ignore', category=UserWarning, message=r"Boolean Series.*"
+    )
     main()

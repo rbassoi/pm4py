@@ -25,9 +25,8 @@ The ``pm4py.conformance`` module contains the conformance checking algorithms im
 
 from typing import List, Dict, Any, Union, Optional, Tuple, Set
 
-from pm4py.objects.log.obj import EventLog, Trace, Event, EventStream
+from pm4py.objects.log.obj import EventLog, Trace, Event
 from pm4py.objects.petri_net.obj import PetriNet, Marking
-from pm4py.convert import convert_to_event_log
 from pm4py.objects.process_tree.obj import ProcessTree
 from pm4py.util import xes_constants, constants
 from pm4py.utils import get_properties, __event_log_deprecation_warning
@@ -91,6 +90,7 @@ def conformance_diagnostics_token_based_replay(log: Union[EventLog, pd.DataFrame
         check_pandas_dataframe_columns(log, activity_key=activity_key, timestamp_key=timestamp_key, case_id_key=case_id_key)
 
     if return_diagnostics_dataframe:
+        from pm4py.convert import convert_to_event_log
         log = convert_to_event_log(log, case_id_key=case_id_key)
         case_id_key = None
 
@@ -153,6 +153,7 @@ def conformance_diagnostics_alignments(log: Union[EventLog, pd.DataFrame], *args
         check_pandas_dataframe_columns(log, activity_key=activity_key, timestamp_key=timestamp_key, case_id_key=case_id_key)
 
     if return_diagnostics_dataframe:
+        from pm4py.convert import convert_to_event_log
         log = convert_to_event_log(log, case_id_key=case_id_key)
         case_id_key = None
 
@@ -761,6 +762,7 @@ def conformance_declare(log: Union[EventLog, pd.DataFrame], declare_model: Dict[
                                        case_id_key=case_id_key)
 
     if return_diagnostics_dataframe:
+        from pm4py.convert import convert_to_event_log
         log = convert_to_event_log(log, case_id_key=case_id_key)
         case_id_key = None
 
@@ -820,6 +822,7 @@ def conformance_log_skeleton(log: Union[EventLog, pd.DataFrame], log_skeleton: D
         check_pandas_dataframe_columns(log, activity_key=activity_key, timestamp_key=timestamp_key, case_id_key=case_id_key)
 
     if return_diagnostics_dataframe:
+        from pm4py.convert import convert_to_event_log
         log = convert_to_event_log(log, case_id_key=case_id_key)
         case_id_key = None
 

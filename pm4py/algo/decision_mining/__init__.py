@@ -1,28 +1,9 @@
-'''
-    PM4Py – A Process Mining Library for Python
-Copyright (C) 2024 Process Intelligence Solutions UG (haftungsbeschränkt)
+from pm4py.util import constants as pm4_constants
 
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU Affero General Public License as
-published by the Free Software Foundation, either version 3 of the
-License, or any later version.
+if pm4_constants.ENABLE_INTERNAL_IMPORTS:
+    from pm4py.algo.decision_mining import algorithm
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU Affero General Public License for more details.
+    import warnings
 
-You should have received a copy of the GNU Affero General Public License
-along with this program.  If not, see this software project's root or
-visit <https://www.gnu.org/licenses/>.
-
-Website: https://processintelligence.solutions
-Contact: info@processintelligence.solutions
-'''
-from pm4py.algo.decision_mining import algorithm
-
-from pm4py.util import constants
-import warnings
-
-if constants.SHOW_INTERNAL_WARNINGS:
-    warnings.warn("The decision_mining package will be removed in a future release.")
+    if pm4_constants.SHOW_INTERNAL_WARNINGS:
+        warnings.warn("The decision_mining package will be removed in a future release.")

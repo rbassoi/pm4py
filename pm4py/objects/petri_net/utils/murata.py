@@ -33,13 +33,14 @@ def apply_reduction(net: PetriNet, im: Marking, fm: Marking) -> Tuple[PetriNet, 
     fm
         Final marking
     """
-    Aeq = []
-    Aub = []
-    beq = []
-    bub = []
     places = sorted(list(net.places), key=lambda x: x.name)
     redundant = set()
     for place in places:
+        Aeq = []
+        Aub = []
+        beq = []
+        bub = []
+
         # first constraint
         constraint = [0] * (len(net.places) + 1)
         for p2 in im:
@@ -117,10 +118,18 @@ def apply_reduction(net: PetriNet, im: Marking, fm: Marking) -> Tuple[PetriNet, 
             redundant.add(place)
 
     for place in redundant:
-        if place not in fm:
-            net = remove_place(net, place)
-            if place in im:
-                im = copy(im)
-                del im[place]
+        # Remove the redundant place from the net
+        net = remove_place(net, place)
+        # Adjust the initial marking if the place is present
+        if place in im:
+            # Depending on the net's structure, you might need to redistribute tokens
+            # For simplicity, we can remove the place from the initial marking
+            # if it's guaranteed not to affect the net's behavior
+            im = copy(im)
+            del im[place]
+        # Adjust the final marking if the place is present
+        if place in fm:
+            fm = copy(fm)
+            del fm[place]
 
     return net, im, fm

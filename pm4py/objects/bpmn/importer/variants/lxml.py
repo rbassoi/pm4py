@@ -65,7 +65,6 @@ def parse_element(bpmn_graph, counts, curr_el, parents, incoming_dict, outgoing_
         elif tag.endswith("subprocess"):  # subprocess invocation
             name = curr_el.get("name").replace("\r", "").replace("\n", "") if "name" in curr_el.attrib else ""
             subprocess = BPMN.SubProcess(id=curr_el.get("id"), name=name, process=process, depth=rec_depth)
-            print("subprocess", subprocess)
             bpmn_graph.add_node(subprocess)
             node = subprocess
             process = curr_el.get("id")
@@ -89,7 +88,6 @@ def parse_element(bpmn_graph, counts, curr_el, parents, incoming_dict, outgoing_
             else:
                 task = BPMN.Task(id=id, name=name, process=process)
             bpmn_graph.add_node(task)
-            print("task", task)
             node = task
             nodes_dict[id] = node
         elif tag.endswith("startevent"):  # start node starting the (sub)process

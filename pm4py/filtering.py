@@ -1177,22 +1177,36 @@ def filter_ocel_events_timestamp(
         )
     """
     from pm4py.algo.filtering.ocel import event_attributes
-    return event_attributes.apply_timestamp(ocel, min_timest, max_timest, parameters={"pm4py:param:timestamp_key": timestamp_key})
+    return event_attributes.apply_timestamp(
+        ocel,
+        min_timest,
+        max_timest,
+        parameters={"pm4py:param:timestamp_key": timestamp_key}
+    )
 
 
-def filter_four_eyes_principle(log: Union[EventLog, pd.DataFrame], activity1: str, activity2: str, activity_key: str = "concept:name", timestamp_key: str = "time:timestamp", case_id_key: str = "case:concept:name", resource_key: str = "org:resource", keep_violations: bool = False) -> Union[EventLog, pd.DataFrame]:
+def filter_four_eyes_principle(
+    log: Union[EventLog, pd.DataFrame],
+    activity1: str,
+    activity2: str,
+    activity_key: str = "concept:name",
+    timestamp_key: str = "time:timestamp",
+    case_id_key: str = "case:concept:name",
+    resource_key: str = "org:resource",
+    keep_violations: bool = False
+) -> Union[EventLog, pd.DataFrame]:
     """
-    Filter out the cases of the log violating the four eyes principle on the provided activities.
+    Filters out the cases of the log that violate the four-eyes principle on the provided activities.
 
-    :param log: event log
-    :param activity1: first activity
-    :param activity2: second activity
-    :param activity_key: attribute to be used for the activity
-    :param timestamp_key: attribute to be used for the timestamp
-    :param case_id_key: attribute to be used as case identifier
-    :param resource_key: attribute to be used as resource
-    :param keep_violations: boolean to discard (if False) or retain (if True) the violations
-    :rtype: ``Union[EventLog, pd.DataFrame]``
+    :param log: Event log or Pandas DataFrame.
+    :param activity1: First activity.
+    :param activity2: Second activity.
+    :param activity_key: Attribute to be used for the activity.
+    :param timestamp_key: Attribute to be used for the timestamp.
+    :param case_id_key: Attribute to be used as case identifier.
+    :param resource_key: Attribute to be used as resource.
+    :param keep_violations: Boolean indicating whether to discard (if False) or retain (if True) the violations.
+    :return: Filtered event log or Pandas DataFrame.
 
     .. code-block:: python3
 
@@ -1223,18 +1237,26 @@ def filter_four_eyes_principle(log: Union[EventLog, pd.DataFrame], activity1: st
         return ltl_checker.four_eyes_principle(log, activity1, activity2, parameters=properties)
 
 
-def filter_activity_done_different_resources(log: Union[EventLog, pd.DataFrame], activity: str, activity_key: str = "concept:name", timestamp_key: str = "time:timestamp", case_id_key: str = "case:concept:name", resource_key: str = "org:resource", keep_violations: bool = True) -> Union[EventLog, pd.DataFrame]:
+def filter_activity_done_different_resources(
+    log: Union[EventLog, pd.DataFrame],
+    activity: str,
+    activity_key: str = "concept:name",
+    timestamp_key: str = "time:timestamp",
+    case_id_key: str = "case:concept:name",
+    resource_key: str = "org:resource",
+    keep_violations: bool = True
+) -> Union[EventLog, pd.DataFrame]:
     """
     Filters the cases where an activity is performed by different resources multiple times.
 
-    :param log: event log
-    :param activity: activity to consider
-    :param activity_key: attribute to be used for the activity
-    :param timestamp_key: attribute to be used for the timestamp
-    :param case_id_key: attribute to be used as case identifier
-    :param resource_key: attribute to be used as resource
-    :param keep_violations: boolean to discard (if False) or retain (if True) the violations
-    :rtype: ``Union[EventLog, pd.DataFrame]``
+    :param log: Event log or Pandas DataFrame.
+    :param activity: Activity to consider.
+    :param activity_key: Attribute to be used for the activity.
+    :param timestamp_key: Attribute to be used for the timestamp.
+    :param case_id_key: Attribute to be used as case identifier.
+    :param resource_key: Attribute to be used as resource.
+    :param keep_violations: Boolean indicating whether to discard (if False) or retain (if True) the violations.
+    :return: Filtered event log or Pandas DataFrame.
 
     .. code-block:: python3
 
